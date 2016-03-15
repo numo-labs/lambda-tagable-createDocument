@@ -1,0 +1,33 @@
+{
+  "name": "lambda-tagable-createdocument",
+  "version": "0.1.1",
+  "description": "create or update a document",
+  "main": "index.js",
+  "scripts": {
+    "nocov": "node ./node_modules/.bin/mocha test/*.js",
+    "test": "npm run lint && npm run coverage",
+    "coverage": "node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/*.js --report lcov -- -R spec",
+    "lint": "node ./node_modules/eslint/bin/eslint.js --fix *.js **/*.js **/test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/numo-labs/lambda-tagable-createDocument.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/numo-labs/lambda-tagable-createDocument/issues"
+  },
+  "homepage": "https://github.com/numo-labs/lambda-tagable-createDocument#readme",
+  "dependencies": {
+    "lodash": "^4.6.1"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.2.40",
+    "eslint": "^1.10.3",
+    "eslint-config-semistandard": "^5.0.0",
+    "istanbul": "^0.4.2",
+    "mocha": "^2.4.5",
+    "simple-mock": "^0.6.0"
+  }
+}
