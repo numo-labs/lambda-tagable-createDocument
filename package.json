@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "nocov": "node ./node_modules/.bin/mocha test/*.js",
-    "test": "npm run lint && npm run coverage",
+    "test": "semistandard && npm run coverage",
     "coverage": "node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/*.js --report lcov -- -R spec",
-    "lint": "node ./node_modules/eslint/bin/eslint.js --fix *.js **/*.js **/test/*.js"
+    "lint": "node ./node_modules/eslint/bin/eslint.js --fix *.js **/*.js **/test/*.js",
+    "deploy": "node ./node_modules/dpl/dpl.js"
   },
   "repository": {
     "type": "git",
@@ -24,10 +25,24 @@
   },
   "devDependencies": {
     "aws-sdk": "^2.2.40",
+    "dpl": "^1.0.7",
     "eslint": "^1.10.3",
     "eslint-config-semistandard": "^5.0.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
-    "simple-mock": "^0.6.0"
-  }
+    "simple-mock": "^0.6.0",
+    "semistandard": "^7.0.5"
+  },
+  "files_to_deploy": ["package.json", "index.js"],
+  "semistandard": {
+    "globals": [
+      "describe",
+      "it",
+      "afterEach"
+    ]
+  },
+  "pre-commit": [
+    "semistandard",
+    "check-coverage"
+  ]
 }
