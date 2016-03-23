@@ -22,9 +22,9 @@ exports.hotel_mhid_77bvb7p = function () {
         active: true
       }
     ],
-    content: [
+    metadata: [
       {
-        key: 'location',
+        key: 'meta:location',
         values: ['13.1777','-59.63560']
       },
       {
@@ -38,7 +38,7 @@ exports.hotel_mhid_77bvb7p = function () {
       {
         key: 'label:en',
         values: ['All Seasons Resort Europa']
-      },
+      }
     ]
   };
 };
@@ -64,7 +64,7 @@ exports.geography_geonames_3374084 = function () {
         active: true
       }
     ]
-    content: [
+    metadata: [
       {
         key: 'label:en',
         values: ['Barbados']
@@ -98,7 +98,7 @@ exports.marketing_tile_1234 = function () {
     _id: 'marketing:tile.romantic_beaches',
     displayName: 'Romantic Beaches',
     tags: [],
-    content: [
+    metadata: [
       {
         key: 'search:en',
         values: ['Romantic Beaches']
