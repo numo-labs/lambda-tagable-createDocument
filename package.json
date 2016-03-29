@@ -1,7 +1,7 @@
 {
-  "name": "lambda-tagable-createdocument",
-  "version": "0.1.1",
-  "description": "create or update a document",
+  "name": "lambda-taggable-createdocument",
+  "version": "1.0.1",
+  "description": "create or update a taggable document",
   "main": "index.js",
   "scripts": {
     "nocov": "node ./node_modules/.bin/mocha test/*.js",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/numo-labs/lambda-tagable-createDocument.git"
+    "url": "git+https://github.com/numo-labs/lambda-taggable-createDocument.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/numo-labs/lambda-tagable-createDocument/issues"
+    "url": "https://github.com/numo-labs/lambda-taggable-createDocument/issues"
   },
-  "homepage": "https://github.com/numo-labs/lambda-tagable-createDocument#readme",
+  "homepage": "https://github.com/numo-labs/lambda-taggable-createDocument#readme",
   "dependencies": {
     "aws-lambda-helper": "^2.3.0",
     "lodash": "^4.6.1"

@@ -25,7 +25,7 @@ exports.hotel_mhid_77bvb7p = function () {
     metadata: [
       {
         key: 'meta:location',
-        values: ['13.1777','-59.63560']
+        values: ['13.1777', '-59.63560']
       },
       {
         key: 'search:en',
@@ -33,7 +33,7 @@ exports.hotel_mhid_77bvb7p = function () {
       },
       {
         key: 'search:fr',
-        values: ['All Seasons Resort en Europe','All Seasons Resort Europe'] //Can search for both when in language FR context
+        values: ['All Seasons Resort en Europe', 'All Seasons Resort Europe'] // Can search for both when in language FR context
       },
       {
         key: 'label:en',
@@ -53,7 +53,7 @@ exports.hotel_wvHotelPartId_12345 = function () {
 };
 
 exports.geography_geonames_3374084 = function () {
-    return {
+  return {
     _id: 'geography:geonames.3374084',
     displayName: 'Barbados',
     tags: [
@@ -63,7 +63,7 @@ exports.geography_geonames_3374084 = function () {
         source: 'user',
         active: true
       }
-    ]
+    ],
     metadata: [
       {
         key: 'label:en',
@@ -75,11 +75,11 @@ exports.geography_geonames_3374084 = function () {
       },
       {
         key: 'label:fr',
-        values: ['Barbade'] 
+        values: ['Barbade']
       },
       {
         key: 'label:iso',
-        values: ['BB'] 
+        values: ['BB']
       },
       {
         key: 'search:en',
@@ -87,11 +87,11 @@ exports.geography_geonames_3374084 = function () {
       },
       {
         key: 'search:fr',
-        values: ['Barbade','Barbados'] //Can search for both when in language FR context
+        values: ['Barbade', 'Barbados'] // Can search for both when in language FR context
       }
     ]
   };
-}
+};
 
 exports.marketing_tile_1234 = function () {
   return {
@@ -106,9 +106,7 @@ exports.marketing_tile_1234 = function () {
       {
         key: 'label:en',
         values: ['Romantic Beaches']
-      },
+      }
     ]
   };
 };
-
-
