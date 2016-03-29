@@ -20,26 +20,31 @@ internal.processEvent = function (event, cb) {
   var doc = internal.initDoc(event);
 
   var tags = getTags(doc.tags);
+
+  var item = {
+    _id: {
+      S: doc._id.split('').reverse().join('')
+    }, // reverse the id, better for distribution over the dynamodb cluster
+    displayName: {
+      S: doc.displayName
+    },
+    activeTags: {
+      SS: tags.active
+    },
+    disabledTags: {
+      SS: tags.disabled
+    },
+    doc: {
+      S: JSON.stringify(doc)
+    }
+  };
+
+  console.log(JSON.stringify(item, null, 2));
+
   // Insert document in DB
   AwsHelper.DynamoDB.putItem({
     TableName: tableName,
-    Item: {
-      _id: {
-        S: doc._id.split('').reverse().join('')
-      }, // reverse the id, better for distribution over the dynamodb cluster
-      displayName: {
-        S: doc.displayName
-      },
-      activeTags: {
-        SS: tags.active
-      },
-      disabledTags: {
-        SS: tags.disabled
-      },
-      doc: {
-        S: JSON.stringify(doc)
-      }
-    }
+    Item: item
   },
     function (err, data) {
       return cb(err, data);
