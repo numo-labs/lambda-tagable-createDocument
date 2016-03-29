@@ -39,8 +39,6 @@ internal.processEvent = function (event, cb) {
     }
   };
 
-  console.log(JSON.stringify(item, null, 2));
-
   // Insert document in DB
   AwsHelper.DynamoDB.putItem({
     TableName: tableName,
