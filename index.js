@@ -29,10 +29,10 @@ internal.processEvent = function (event, cb) {
       S: doc.displayName
     },
     activeTags: {
-      SS: tags.active
+      SS: tags.active.lenght === 0 ? '_' : tags.active // Added '_' tag when an empty list to avoid empty list error in dynamodb
     },
     disabledTags: {
-      SS: tags.disabled
+      SS: tags.disabled.lenght === 0 ? '_' : tags.disabled // Added '_' tag when an empty list to avoid empty list error in dynamodb
     },
     doc: {
       S: JSON.stringify(doc)
