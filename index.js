@@ -3,7 +3,7 @@ var request = require('request');
 var aws4 = require('aws4');
 var internal = {};
 
-var AWS_GATEWAY_INTERNAL = 'https://jo7a6ogpr6.execute-api.eu-west-1.amazonaws.com/';
+var AWS_GATEWAY_INTERNAL = 'https://jo7a6ogpr6.execute-api.eu-west-1.amazonaws.com';
 
 exports.handler = function (event, context) {
   AwsHelper.init(context);
@@ -37,8 +37,10 @@ internal.processEvent = function (event, cb) {
   var opts = {
     host: AWS_GATEWAY_INTERNAL, // Used the gateway as reverse proxy to our elastic search server
     path: AwsHelper.env + '/taggable/tag-' + AwsHelper.env,
+    uri: AWS_GATEWAY_INTERNAL + '/' + AwsHelper.env + '/taggable/tag-' + AwsHelper.env,
     method: 'POST',
     json: false,
+    region: AwsHelper.region,
     body: JSON.stringify(item)
   };
   opts = aws4.sign(opts);
