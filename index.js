@@ -4,7 +4,7 @@ var aws4 = require('aws4');
 var https = require('https');
 var internal = {};
 
-var AWS_GATEWAY_INTERNAL = 'https://jo7a6ogpr6.execute-api.eu-west-1.amazonaws.com';
+var AWS_GATEWAY_INTERNAL = 'jo7a6ogpr6.execute-api.eu-west-1.amazonaws.com';
 
 exports.handler = function (event, context) {
   AwsHelper.init(context);
