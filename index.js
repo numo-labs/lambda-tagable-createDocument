@@ -1,5 +1,6 @@
 var AwsHelper = require('aws-lambda-helper');
 var request = require('request');
+var aws4 = require('aws4');
 var internal = {};
 
 var AWS_GATEWAY_INTERNAL = 'https://jo7a6ogpr6.execute-api.eu-west-1.amazonaws.com/';
@@ -33,7 +34,7 @@ internal.processEvent = function (event, cb) {
     metadata: doc.metadata
   };
 
-  request.post(
+  request.post(aws4.sign(
     {
       url: AWS_GATEWAY_INTERNAL + AwsHelper.env + '/taggable/tag-' + AwsHelper.env, // Used the gateway as reverse proxy to our elastic search server
       method: 'POST',
@@ -44,7 +45,7 @@ internal.processEvent = function (event, cb) {
       console.log(err, result);
       return cb(err, result);
     }
-  );
+  ));
 
   function getTags (tags) {
     var result = {

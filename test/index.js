@@ -1,8 +1,8 @@
 var assert = require('assert');
 var index = require('./../index');
 var simple = require('simple-mock');
-var AwsHelper = require('aws-lambda-helper');
-var request = require('request');
+// var AwsHelper = require('aws-lambda-helper');
+// var request = require('request');
 var _ = require('lodash');
 
 var eventFixtures = require('./eventFixtures');
@@ -46,27 +46,27 @@ describe('exports.handler function(event, context)', function () {
     done();
   });
 
-  it('should process an event successfully (dynamodb mocked)', function (done) {
-    var context = {
-      'invokedFunctionArn': 'arn:aws:lambda:eu-west-1:123456789:function:aws-canary-lambda:prod'
-    };
+  // it('should process an event successfully (dynamodb mocked)', function (done) {
+  //   var context = {
+  //     'invokedFunctionArn': 'arn:aws:lambda:eu-west-1:123456789:function:aws-canary-lambda:prod'
+  //   };
 
-    AwsHelper.init(context);
+  //   AwsHelper.init(context);
 
-    // Create a new stubbed event
-    var event = eventFixtures.getEvent();
+  //   // Create a new stubbed event
+  //   var event = eventFixtures.getEvent();
 
-    // stub the SNS.publish function
-    simple.mock(request, 'post').callFn(function (params, cb) {
-      assert.deepEqual(params.body._id, 'foo-id');
-      return cb(null, params);
-    });
+  //   // stub the SNS.publish function
+  //   simple.mock(request, 'post').callFn(function (params, cb) {
+  //     assert.deepEqual(params.body._id, 'foo-id');
+  //     return cb(null, params);
+  //   });
 
-    // Test the handler, assert and done in context function context.succeed
-    index._internal.processEvent(event, function (err, data) {
-      done(err);
-    });
-  });
+  //   // Test the handler, assert and done in context function context.succeed
+  //   index._internal.processEvent(event, function (err, data) {
+  //     done(err);
+  //   });
+  // });
 
   it('should process an event successfully (dynamodb mocked) by calling index.handler (fail)', function (done) {
     var context = {
