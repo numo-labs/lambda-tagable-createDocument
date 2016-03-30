@@ -46,7 +46,7 @@ internal.processEvent = function (event, cb) {
   opts = aws4.sign(opts);
   opts.uri = AWS_GATEWAY_INTERNAL + '/' + AwsHelper.env + '/taggable/tag-' + AwsHelper.env;
   opts.agentOptions = {
-    secureProtocol: 'TLSv1.2'
+    secureProtocol: 'TLS'
   };
   console.log(opts);
 
