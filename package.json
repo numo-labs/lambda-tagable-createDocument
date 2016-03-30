@@ -22,7 +22,9 @@
   "homepage": "https://github.com/numo-labs/lambda-taggable-createDocument#readme",
   "dependencies": {
     "aws-lambda-helper": "^2.3.0",
-    "lodash": "^4.6.1"
+    "geo-hash": "0.0.2",
+    "lodash": "^4.6.1",
+    "request": "^2.69.0"
   },
   "devDependencies": {
     "aws-sdk": "^2.2.40",

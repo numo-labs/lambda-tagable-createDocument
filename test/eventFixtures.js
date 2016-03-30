@@ -1,6 +1,6 @@
 exports.getEvent = function () {
   return {
-    _id: 'foo-id',
+    id: 'foo-id',
     displayName: 'foo-display-name',
     tags: [
       {
@@ -16,7 +16,7 @@ exports.getEvent = function () {
         active: false
       }
     ],
-    content: [
+    metadata: [
       {
         key: 'label:en',
         values: ['Hotel ABC']

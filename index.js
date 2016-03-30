@@ -1,13 +1,15 @@
 var AwsHelper = require('aws-lambda-helper');
-var tableName = 'numo-tagable';
+var request = require('request');
 var internal = {};
+
+var AWS_GATEWAY_INTERNAL = 'https://jo7a6ogpr6.execute-api.eu-west-1.amazonaws.com/';
 
 exports.handler = function (event, context) {
   AwsHelper.init(context);
 
   // C heck if an ID is provided
-  if (!event._id) {
-    return context.fail(new Error('no _id provided'));
+  if (!event.id) {
+    return context.fail(new Error('no id provided'));
   }
 
   internal.processEvent(event, function (err, data) {
@@ -22,30 +24,25 @@ internal.processEvent = function (event, cb) {
   var tags = getTags(doc.tags);
 
   var item = {
-    _id: {
-      S: doc._id.split('').reverse().join('')
-    }, // reverse the id, better for distribution over the dynamodb cluster
-    displayName: {
-      S: doc.displayName
-    },
-    activeTags: {
-      SS: tags.active.length === 0 ? ['_'] : tags.active // Added '_' tag when an empty list to avoid empty list error in dynamodb
-    },
-    disabledTags: {
-      SS: tags.disabled.length === 0 ? ['_'] : tags.disabled // Added '_' tag when an empty list to avoid empty list error in dynamodb
-    },
-    doc: {
-      S: JSON.stringify(doc)
-    }
+    id: doc.id,
+    displayName: doc.displayName,
+    // geohash:
+    activeTags: tags.active,
+    disabledTags: tags.disabled,
+    tags: doc.tags,
+    metadata: doc.metadata
   };
 
-  // Insert document in DB
-  AwsHelper.DynamoDB.putItem({
-    TableName: tableName,
-    Item: item
-  },
-    function (err, data) {
-      return cb(err, data);
+  request.post(
+    {
+      url: AWS_GATEWAY_INTERNAL + AwsHelper.env + '/taggable/tag-' + AwsHelper.env, // Used the gateway as reverse proxy to our elastic search server
+      method: 'POST',
+      json: true,
+      body: item
+    },
+    function (err, result) {
+      console.log(err, result);
+      return cb(err, result);
     }
   );
 
@@ -67,10 +64,10 @@ internal.processEvent = function (event, cb) {
 
 internal.initDoc = function (event) {
   return {
-    _id: event._id,
-    displayName: event.displayName || event._id,
+    id: event.id,
+    displayName: event.displayName || event.id,
     tags: event.tags || [],
-    content: event.content || []
+    metadata: event.metadata || []
   };
 };
 
