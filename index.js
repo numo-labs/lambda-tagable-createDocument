@@ -37,10 +37,9 @@ internal.processEvent = function (event, cb) {
   var opts = {
     url: AWS_GATEWAY_INTERNAL + AwsHelper.env + '/taggable/tag-' + AwsHelper.env, // Used the gateway as reverse proxy to our elastic search server
     method: 'POST',
-    json: true,
-    body: item
+    json: false,
+    body: JSON.stringify(item)
   };
-
   opts = aws4.sign(opts);
   console.log(opts);
 
