@@ -1,6 +1,7 @@
 var AwsHelper = require('aws-lambda-helper');
-var request = require('request');
+// var request = require('request');
 var aws4 = require('aws4');
+var https = require('https');
 var internal = {};
 
 var AWS_GATEWAY_INTERNAL = 'https://jo7a6ogpr6.execute-api.eu-west-1.amazonaws.com';
@@ -42,18 +43,40 @@ internal.processEvent = function (event, cb) {
     region: AwsHelper.region,
     body: JSON.stringify(item)
   };
-  console.log(opts);
-  opts = aws4.sign(opts);
-  opts.uri = AWS_GATEWAY_INTERNAL + '/' + AwsHelper.env + '/taggable/tag-' + AwsHelper.env;
-  // opts.agentOptions = {
-  //   secureProtocol: 'TLS'
-  // };
-  console.log(opts);
 
-  request.post(opts, function (err, result) {
-    console.log(err, result);
-    return cb(err, result);
+  opts = aws4.sign(opts);
+
+  var params = {
+    host: AWS_GATEWAY_INTERNAL,
+    port: 443,
+    path: '/' + AwsHelper.env + '/taggable/tag-' + AwsHelper.env,
+    method: 'POST',
+    headers: opts.headers
+  };
+
+  params.headers['Content-Type'] = 'application/json';
+
+  console.log(params);
+
+  var str = '';
+
+  var request = https.request(params, function (res) {
+    res.on('data', function (chunk) {
+      str += chunk;
+    });
+
+    res.on('end', function () {
+      console.log(str);
+      cb(null, str);
+    });
   });
+
+  request.on('error', function (err) {
+    console.log(err);
+    cb(err);
+  });
+
+  request.end();
 
   function getTags (tags) {
     var result = {
