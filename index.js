@@ -9,7 +9,7 @@ exports.handler = function (event, context) {
 
   // C heck if an ID is provided
   if (!event._id) {
-    return context.fail(new Error('no id provided'));
+    return context.fail(new Error('no _id provided'));
   }
 
   internal.processEvent(event, function (err, data) {
