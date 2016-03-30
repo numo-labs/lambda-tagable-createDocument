@@ -34,18 +34,20 @@ internal.processEvent = function (event, cb) {
     metadata: doc.metadata
   };
 
-  request.post(aws4.sign(
-    {
-      url: AWS_GATEWAY_INTERNAL + AwsHelper.env + '/taggable/tag-' + AwsHelper.env, // Used the gateway as reverse proxy to our elastic search server
-      method: 'POST',
-      json: true,
-      body: item
-    },
-    function (err, result) {
-      console.log(err, result);
-      return cb(err, result);
-    }
-  ));
+  var opts = {
+    url: AWS_GATEWAY_INTERNAL + AwsHelper.env + '/taggable/tag-' + AwsHelper.env, // Used the gateway as reverse proxy to our elastic search server
+    method: 'POST',
+    json: true,
+    body: item
+  };
+
+  opts = aws4.sign(opts);
+  console.log(opts);
+
+  request.post(opts, function (err, result) {
+    console.log(err, result);
+    return cb(err, result);
+  });
 
   function getTags (tags) {
     var result = {
