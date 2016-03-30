@@ -35,7 +35,7 @@ internal.processEvent = function (event, cb) {
   };
 
   var opts = {
-    url: AWS_GATEWAY_INTERNAL + AwsHelper.env + '/taggable/tag-' + AwsHelper.env, // Used the gateway as reverse proxy to our elastic search server
+    uri: AWS_GATEWAY_INTERNAL + AwsHelper.env + '/taggable/tag-' + AwsHelper.env, // Used the gateway as reverse proxy to our elastic search server
     method: 'POST',
     json: false,
     body: JSON.stringify(item)
