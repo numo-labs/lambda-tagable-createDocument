@@ -35,15 +35,16 @@ internal.processEvent = function (event, cb) {
   };
 
   var opts = {
-    host: AWS_GATEWAY_INTERNAL, // Used the gateway as reverse proxy to our elastic search server
-    path: AwsHelper.env + '/taggable/tag-' + AwsHelper.env,
-    uri: AWS_GATEWAY_INTERNAL + '/' + AwsHelper.env + '/taggable/tag-' + AwsHelper.env,
+    host: 'apigateway.' + AwsHelper.region + '.amazonaws.com', // Used the gateway as reverse proxy to our elastic search server
+    // path: AwsHelper.env + '/taggable/tag-' + AwsHelper.env,
     method: 'POST',
     json: false,
     region: AwsHelper.region,
     body: JSON.stringify(item)
   };
+  console.log(opts);
   opts = aws4.sign(opts);
+  opts.uri = AWS_GATEWAY_INTERNAL + '/' + AwsHelper.env + '/taggable/tag-' + AwsHelper.env;
   console.log(opts);
 
   request.post(opts, function (err, result) {
