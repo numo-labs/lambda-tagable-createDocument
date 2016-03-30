@@ -1,6 +1,6 @@
 var AwsHelper = require('aws-lambda-helper');
 // var request = require('request');
-var aws4 = require('aws4');
+// var aws4 = require('aws4');
 var https = require('https');
 var internal = {};
 
@@ -35,23 +35,24 @@ internal.processEvent = function (event, cb) {
     metadata: doc.metadata
   };
 
-  var opts = {
-    host: 'apigateway.' + AwsHelper.region + '.amazonaws.com', // Used the gateway as reverse proxy to our elastic search server
-    // path: AwsHelper.env + '/taggable/tag-' + AwsHelper.env,
-    method: 'POST',
-    json: false,
-    region: AwsHelper.region,
-    body: JSON.stringify(item)
-  };
+  // var opts = {
+  //   host: 'apigateway.' + AwsHelper.region + '.amazonaws.com', // Used the gateway as reverse proxy to our elastic search server
+  //   // path: AwsHelper.env + '/taggable/tag-' + AwsHelper.env,
+  //   method: 'POST',
+  //   json: false,
+  //   region: AwsHelper.region,
+  //   body: JSON.stringify(item)
+  // };
 
-  opts = aws4.sign(opts);
+  // opts = aws4.sign(opts);
 
   var params = {
     host: AWS_GATEWAY_INTERNAL,
     port: 443,
     path: '/' + AwsHelper.env + '/taggable/tag-' + AwsHelper.env,
     method: 'POST',
-    headers: opts.headers
+    headers: {}, // opts.headers
+    body: JSON.stringify(item)
   };
 
   params.headers['Content-Type'] = 'application/json';
