@@ -1,10 +1,10 @@
 var AwsHelper = require('aws-lambda-helper');
-// var request = require('request');
-// var aws4 = require('aws4');
-var https = require('https');
+var AWS = require('aws-sdk');
 var internal = {};
 
-var AWS_GATEWAY_INTERNAL = 'jo7a6ogpr6.execute-api.eu-west-1.amazonaws.com';
+var config = {
+  'ci': 'https://doc-taggable-ci-dm62zw5dvzelh2nbvr3ao276zy.eu-west-1.cloudsearch.amazonaws.com'
+};
 
 exports.handler = function (event, context) {
   AwsHelper.init(context);
@@ -25,59 +25,29 @@ internal.processEvent = function (event, cb) {
 
   var tags = getTags(doc.tags);
 
-  var item = {
-    _id: doc._id,
-    displayName: doc.displayName,
-    // geohash:
-    activeTags: tags.active,
-    disabledTags: tags.disabled,
-    tags: doc.tags,
-    metadata: doc.metadata
-  };
+  var docsToIndex = [{
+    type: 'add',
+    id: doc._id,
+    fields: {
+      id: doc._id,
+      displayname: doc.displayName,
+      activetags: tags.active,
+      disabledtags: tags.disabled,
+      doc: JSON.stringify(doc)
+    }
+  }];
 
-  // var opts = {
-  //   host: 'apigateway.' + AwsHelper.region + '.amazonaws.com', // Used the gateway as reverse proxy to our elastic search server
-  //   // path: AwsHelper.env + '/taggable/tag-' + AwsHelper.env,
-  //   method: 'POST',
-  //   json: false,
-  //   region: AwsHelper.region,
-  //   body: JSON.stringify(item)
-  // };
-
-  // opts = aws4.sign(opts);
-
-  var params = {
-    host: AWS_GATEWAY_INTERNAL,
-    port: 443,
-    path: '/' + AwsHelper.env + '/taggable/tag-' + AwsHelper.env,
-    method: 'POST',
-    headers: {}, // opts.headers
-    body: JSON.stringify(item)
-  };
-
-  params.headers['Content-Type'] = 'application/json';
-
-  console.log(params);
-
-  var str = '';
-
-  var request = https.request(params, function (res) {
-    res.on('data', function (chunk) {
-      str += chunk;
-    });
-
-    res.on('end', function () {
-      console.log(str);
-      cb(null, str);
-    });
+  var csd = new AWS.CloudSearchDomain({
+    endpoint: config[AwsHelper.env],
+    region: AwsHelper.region
   });
 
-  request.on('error', function (err) {
-    console.log(err);
-    cb(err);
+  csd.uploadDocuments({
+    contentType: 'application/json',
+    documents: JSON.stringify(docsToIndex)
+  }, function (err, data) {
+    return cb(err, data);
   });
-
-  request.end();
 
   function getTags (tags) {
     var result = {
