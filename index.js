@@ -8,7 +8,7 @@ exports.handler = function (event, context) {
   AwsHelper.init(context);
 
   // C heck if an ID is provided
-  if (!event.id) {
+  if (!event._id) {
     return context.fail(new Error('no id provided'));
   }
 
@@ -24,7 +24,7 @@ internal.processEvent = function (event, cb) {
   var tags = getTags(doc.tags);
 
   var item = {
-    id: doc.id,
+    _id: doc._id,
     displayName: doc.displayName,
     // geohash:
     activeTags: tags.active,
@@ -64,8 +64,8 @@ internal.processEvent = function (event, cb) {
 
 internal.initDoc = function (event) {
   return {
-    id: event.id,
-    displayName: event.displayName || event.id,
+    _id: event._id,
+    displayName: event.displayName || event._id,
     tags: event.tags || [],
     metadata: event.metadata || []
   };

@@ -12,11 +12,11 @@ describe('exports.handler function(event, context)', function () {
     simple.restore();
   });
 
-  it('should throw an error if the event.id is not set', function (done) {
+  it('should throw an error if the event._id is not set', function (done) {
     var context = {
       'invokedFunctionArn': 'arn:aws:lambda:eu-west-1:123456789:function:aws-canary-lambda:prod',
       fail: function (err) {
-        assert.equal(err.message, 'no id provided');
+        assert.equal(err.message, 'no _id provided');
         done();
       },
       succeed: function (data) {}
@@ -26,11 +26,11 @@ describe('exports.handler function(event, context)', function () {
     index.handler(event, context);
   });
 
-  it('should create a doc and use the id as displayname', function (done) {
+  it('should create a doc and use the _id as displayname', function (done) {
     var event = eventFixtures.getEvent();
     event = _.omit(event, 'displayName');
     var doc = index._internal.initDoc(event);
-    event.displayName = event.id;
+    event.displayName = event._id;
     assert.deepEqual(doc, event);
     done();
   });
@@ -58,7 +58,7 @@ describe('exports.handler function(event, context)', function () {
 
     // stub the SNS.publish function
     simple.mock(request, 'post').callFn(function (params, cb) {
-      assert.deepEqual(params.body.id, 'foo-id');
+      assert.deepEqual(params.body._id, 'foo-id');
       return cb(null, params);
     });
 

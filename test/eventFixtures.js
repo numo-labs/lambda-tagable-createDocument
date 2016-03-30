@@ -1,6 +1,6 @@
 exports.getEvent = function () {
   return {
-    id: 'foo-id',
+    _id: 'foo-id',
     displayName: 'foo-display-name',
     tags: [
       {
