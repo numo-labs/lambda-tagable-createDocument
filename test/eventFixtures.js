@@ -2,17 +2,21 @@ exports.getEvent = function () {
   return {
     _id: 'foo-id',
     displayName: 'foo-display-name',
+    location: {
+      lat: '0',
+      lon: '0'
+    },
     tags: [
       {
         tagId: 'geography:geonames.123',
-        tagType: 'geography',
         source: 'tag:source.user.12234',
+        inherited: false,
         active: true
       },
       {
         tagId: 'geography:geonames.125',
-        tagType: 'geography',
         source: 'tag:source.user.12235',
+        inherited: true,
         active: false
       }
     ],
@@ -35,7 +39,7 @@ exports.hotel_mhid_77bvb7p = function () {
     displayName: 'All Seasons Resort Europa',
     location: {
       lat: '13.1777',
-      long: '-59.63560'
+      lon: '-59.63560'
     },
     tags: [
       {

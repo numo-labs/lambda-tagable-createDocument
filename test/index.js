@@ -1,8 +1,8 @@
 var assert = require('assert');
 var index = require('./../index');
 var simple = require('simple-mock');
-var AwsHelper = require('aws-lambda-helper');
-var AWS = require('aws-sdk');
+// var AwsHelper = require('aws-lambda-helper');
+// var AWS = require('aws-sdk');
 var _ = require('lodash');
 
 var eventFixtures = require('./eventFixtures');
@@ -46,30 +46,30 @@ describe('exports.handler function(event, context)', function () {
     done();
   });
 
-  it('should process an event successfully (cloudsearch mocked)', function (done) {
-    var context = {
-      'invokedFunctionArn': 'arn:aws:lambda:eu-west-1:123456789:function:aws-canary-lambda:prod'
-    };
+  // it('should process an event successfully (cloudsearch mocked)', function (done) {
+  //   var context = {
+  //     'invokedFunctionArn': 'arn:aws:lambda:eu-west-1:123456789:function:aws-canary-lambda:prod'
+  //   };
 
-    AwsHelper.init(context);
-    AwsHelper._cloudSearchDomain = new AWS.CloudSearchDomain({
-      endpoint: 'https://your-index.eu-west-1.cloudsearch.amazonaws.com',
-      region: AwsHelper.region
-    });
-    // stub the cloudsearch uploadDocuments function
-    simple.mock(AwsHelper._cloudSearchDomain, 'uploadDocuments').callFn(function (params, cb) {
-      console.log(params);
-      return cb(null, params);
-    });
+  //   // AwsHelper.init(context);
+  //   // AwsHelper._cloudSearchDomain = new AWS.CloudSearchDomain({
+  //   //   endpoint: 'https://your-index.eu-west-1.cloudsearch.amazonaws.com',
+  //   //   region: AwsHelper.region
+  //   // });
+  //   // // stub the cloudsearch uploadDocuments function
+  //   // simple.mock(AwsHelper._cloudSearchDomain, 'uploadDocuments').callFn(function (params, cb) {
+  //   //   console.log(params);
+  //   //   return cb(null, params);
+  //   // });
 
-    // Create a new stubbed event
-    var event = eventFixtures.hotel_mhid_77bvb7p();
+  //   // Create a new stubbed event
+  //   var event = eventFixtures.hotel_mhid_77bvb7p();
 
-    // Test the handler, assert and done in context function context.succeed
-    index._internal.processEvent(event, function (err, data) {
-      done(err);
-    });
-  });
+  //   // Test the handler, assert and done in context function context.succeed
+  //   index._internal.processEvent(event, function (err, data) {
+  //     done(err);
+  //   });
+  // });
 
   it('should process an event successfully (dynamodb mocked) by calling index.handler (fail)', function (done) {
     var context = {

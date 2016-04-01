@@ -1,9 +1,11 @@
 var AwsHelper = require('aws-lambda-helper');
 var AWS = require('aws-sdk');
 var internal = {};
+var _ = require('lodash');
 
 var config = {
-  'ci': 'https://doc-taggable-ci-dm62zw5dvzelh2nbvr3ao276zy.eu-west-1.cloudsearch.amazonaws.com'
+  ci: 'https://doc-taggable-ci-dm62zw5dvzelh2nbvr3ao276zy.eu-west-1.cloudsearch.amazonaws.com',
+  indexLambdaFunctionName: 'lambda-taggable-updateParentTags' // 'lambda-taggable-inheritance-v1'
 };
 
 exports.handler = function (event, context) {
@@ -14,12 +16,10 @@ exports.handler = function (event, context) {
       region: AwsHelper.region
     });
   }
-
-  // C heck if an ID is provided
+  // Check if an ID is provided
   if (!event._id) {
     return context.fail(new Error('no _id provided'));
   }
-
   internal.processEvent(event, function (err, data) {
     if (err) return context.fail(err); // an error occurred
     return context.succeed(data); // successful response
@@ -27,16 +27,63 @@ exports.handler = function (event, context) {
 };
 
 internal.processEvent = function (event, cb) {
-  var doc = internal.initDoc(event);
+  // Initialise the document
+  var newDoc = internal.initDoc(event);
+  // Get the existing document if it exists and use it to check if non-inherited tags have been changed
+  internal.getCurrentDoc(event._id, function (err, oldDoc) {
+    if (err) return cb(err);
+    // Index the new document (create or update) in CloudSearch
+    internal.indexNewDoc(newDoc, function (err, data) {
+      if (err) return cb(err);
+      // Trigger a inheritance indexer if non inharitance tags have been changed
+      if (oldDoc) {
+        internal.execInhertanceIndex(newDoc._id, oldDoc.tags, newDoc.tags, function (err) {
+          cb(err, data);
+        });
+      }
+    });
+  });
+};
 
-  var tags = getTags(doc.tags);
+internal.execInhertanceIndex = function (_id, oldTags, newTags, cb) {
+  oldTags = _.filter(oldTags, 'inherited');
+  newTags = _.filter(newTags, 'inherited');
+  if (_.difference(oldTags, newTags).length > 0) {
+    var params = {
+      FunctionName: config.indexLambdaFunctionName,
+      Payload: _id,
+      InvocationType: 'Event'
+    };
+    AwsHelper.Lambda.invoke(params, function (err, data) {
+      if (err) return console.log(err);
+    });
+  }
+};
 
+internal.getCurrentDoc = function (_id, cb) {
+  // Get the document
+  var doc = null;
+  var params = {
+    query: "id:'" + _id + "'",
+    queryParser: 'structured'
+  };
+  AwsHelper._cloudSearchDomain.search(params, function (err, data) {
+    if (err) return cb(err);
+    if (data && data.hits && (data.hits.found = 1)) {
+      doc = JSON.parse(data.hits.hit[0].fields.doc[0]);
+    }
+    cb(null, doc);
+  });
+};
+
+internal.indexNewDoc = function (doc, cb) {
+  var tags = internal.getTags(doc.tags);
   var docsToIndex = [{
     type: 'add',
     id: doc._id,
     fields: {
       id: doc._id,
-      location: [doc.location.lat, doc.location.lon]
+      location: [doc.location.lat, doc.location.lon],
       displayname: doc.displayName,
       amenitytags: tags.amenitytags,
       geotags: tags.geotags,
@@ -54,42 +101,6 @@ internal.processEvent = function (event, cb) {
   }, function (err, data) {
     return cb(err, data);
   });
-
-  function getTags (tags) {
-    var result = {
-      amenitytags: [],
-      geotags: [],
-      hoteltags: [],
-      marketingtags: [],
-      tiletags: [],
-      disabled: []
-    };
-    tags.forEach(function (item) {
-      if (item.active) {
-        switch (item.tagId.split(':')[0]) {
-          case 'geo':
-            result.geotags.push(item.tagId);
-            break;
-          case 'hotel':
-            result.hoteltags.push(item.tagId);
-            break;
-          case 'marketing':
-            result.marketingtags.push(item.tagId);
-            break;
-          case 'tile':
-            result.tiletags.push(item.tagId);
-            break;
-          case 'amenity':
-            result.amenitytags.push(item.tagId);
-            break;
-        }
-      } else {
-        result.disabled.push(item.tagId);
-      }
-    });
-    console.log(JSON.stringify(result, null, 2));
-    return result;
-  }
 };
 
 internal.initDoc = function (event) {
@@ -100,6 +111,42 @@ internal.initDoc = function (event) {
     tags: event.tags || [],
     metadata: event.metadata || []
   };
+};
+
+internal.getTags = function (tags) {
+  var result = {
+    amenitytags: [],
+    geotags: [],
+    hoteltags: [],
+    marketingtags: [],
+    tiletags: [],
+    disabled: []
+  };
+  tags.forEach(function (item) {
+    if (item.active) {
+      switch (item.tagId.split(':')[0]) {
+        case 'geo':
+          result.geotags.push(item.tagId);
+          break;
+        case 'hotel':
+          result.hoteltags.push(item.tagId);
+          break;
+        case 'marketing':
+          result.marketingtags.push(item.tagId);
+          break;
+        case 'tile':
+          result.tiletags.push(item.tagId);
+          break;
+        case 'amenity':
+          result.amenitytags.push(item.tagId);
+          break;
+      }
+    } else {
+      result.disabled.push(item.tagId);
+    }
+  });
+  console.log(JSON.stringify(result, null, 2));
+  return result;
 };
 
 exports._internal = internal;
