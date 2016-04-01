@@ -12,4 +12,9 @@ Sample queries:
  (and activetags:'hotel:NE.wvHotelPartId.12345' (not activetags:'marketing:tile.romantic_beaches')) --> structured query parser !!!
 
 
+(not classes:'geo:geonames')
+(not classes:'geo:geonameswikipedia')
+
+
+
 
