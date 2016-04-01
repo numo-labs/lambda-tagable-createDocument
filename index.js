@@ -55,7 +55,7 @@ internal.execInhertanceIndex = function (_id, oldTags, newTags, cb) {
     var params = {
       FunctionName: config.indexLambdaFunctionName,
       Payload: {tag: _id},
-      InvocationType: 'Event'
+      InvocationType: 'RequestResponse'
     };
     AwsHelper.Lambda.invoke(params, function (err, data) {
       if (err) return console.log(err);
