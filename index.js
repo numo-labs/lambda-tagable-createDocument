@@ -52,6 +52,7 @@ internal.execInhertanceIndex = function (_id, oldTags, newTags, cb) {
   oldTags = _.filter(oldTags, 'inherited');
   newTags = _.filter(newTags, 'inherited');
   console.log('oldTags, newTags:', JSON.stringify(oldTags), JSON.stringify(newTags));
+  console.log('diff: ', _.difference(oldTags, newTags);
   if (_.difference(oldTags, newTags).length > 0) {
     var params = {
       FunctionName: config.indexLambdaFunctionName,
@@ -60,6 +61,7 @@ internal.execInhertanceIndex = function (_id, oldTags, newTags, cb) {
     };
     AwsHelper.Lambda.invoke(params, function (err, data) {
       if (err) return console.log(err);
+      cb(err);
     });
   }
 };
