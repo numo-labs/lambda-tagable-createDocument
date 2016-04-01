@@ -75,7 +75,7 @@ internal.getCurrentDoc = function (_id, cb) {
   };
   AwsHelper._cloudSearchDomain.search(params, function (err, data) {
     if (err) return cb(err);
-    if (data && data.hits && (data.hits.found = 1)) {
+    if (data && data.hits && (data.hits.found === 1)) {
       doc = JSON.parse(data.hits.hit[0].fields.doc[0]);
     }
     cb(null, doc);
