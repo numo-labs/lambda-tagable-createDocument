@@ -83,7 +83,7 @@ internal.indexNewDoc = function (doc, cb) {
     id: doc._id,
     fields: {
       id: doc._id,
-      location: [doc.location.lat, doc.location.lon],
+      location: doc.location.lat + ', ' + doc.location.lon,
       displayname: doc.displayName,
       amenitytags: tags.amenitytags,
       geotags: tags.geotags,
