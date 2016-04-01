@@ -43,6 +43,9 @@ internal.processEvent = function (event, cb) {
         internal.execInhertanceIndex(newDoc._id, oldDoc.tags, newDoc.tags, function (err) {
           cb(err, data);
         });
+      } 
+      else {
+        cb(err, data);
       }
     });
   });
