@@ -29,11 +29,14 @@ exports.handler = function (event, context) {
 internal.processEvent = function (event, cb) {
   // Initialise the document
   var newDoc = internal.initDoc(event);
+  console.log('newDoc:', JSON.stringify(newDoc));
   // Get the existing document if it exists and use it to check if non-inherited tags have been changed
   internal.getCurrentDoc(event._id, function (err, oldDoc) {
+    console.log('oldDoc:', JSON.stringify(oldDoc));
     if (err) return cb(err);
     // Index the new document (create or update) in CloudSearch
     internal.indexNewDoc(newDoc, function (err, data) {
+      console.log('indexed NewDoc:', JSON.stringify(data));
       if (err) return cb(err);
       // Trigger a inheritance indexer if non inharitance tags have been changed
       if (oldDoc) {
@@ -48,6 +51,7 @@ internal.processEvent = function (event, cb) {
 internal.execInhertanceIndex = function (_id, oldTags, newTags, cb) {
   oldTags = _.filter(oldTags, 'inherited');
   newTags = _.filter(newTags, 'inherited');
+  console.log('oldTags, newTags:', JSON.stringify(oldTags), JSON.stringify(newTags));
   if (_.difference(oldTags, newTags).length > 0) {
     var params = {
       FunctionName: config.indexLambdaFunctionName,
