@@ -1,8 +1,8 @@
 var assert = require('assert');
 var index = require('./../index');
 var simple = require('simple-mock');
-// var AwsHelper = require('aws-lambda-helper');
-// var AWS = require('aws-sdk');
+var AwsHelper = require('aws-lambda-helper');
+var AWS = require('aws-sdk');
 var _ = require('lodash');
 
 var eventFixtures = require('./eventFixtures');
@@ -113,5 +113,60 @@ describe('exports.handler function(event, context)', function () {
     // Test the handler, assert and done in context function context.succeed
     // Retruns data
     index.handler(event, context);
+  });
+
+  describe('execInhertanceIndex', function () {
+    it('should be possible to trigger a inhertitance index when tags are different, ', function (done) {
+      var context = {
+        'invokedFunctionArn': 'arn:aws:lambda:eu-west-1:123456789:function:aws-canary-lambda:prod'
+      };
+      // Create a new stubbed event
+      var _id = 'foo';
+      var oldTags = [
+        {
+          tagId: 'geo:geonames.2510769',
+          inherited: false,
+          active: true
+        },
+        {
+          tagId: 'geo:isearch.island',
+          inherited: false,
+          active: true
+        }
+      ];
+      var newTags = [
+        {
+          tagId: 'geo:geonames.2510769',
+          inherited: false,
+          active: true
+        },
+        {
+          tagId: 'geo:geonames.inherited_sample',
+          inherited: true,
+          active: true
+        },
+        {
+          tagId: 'geo:isearch.island',
+          inherited: false,
+          active: false
+        }
+      ];
+
+      // Mock the AWS Lambda Invoke
+      AwsHelper.init(context);
+      AwsHelper._Lambda = new AWS.Lambda();
+      // stub the cloudsearch uploadDocuments function
+      simple.mock(AwsHelper._Lambda, 'invoke').callFn(function (params, cb) {
+        console.log(params);
+        assert.equal(JSON.parse(params.Payload).tag, _id);
+        done();
+      });
+
+      // Test the handler, assert and done in context function context.succeed
+      // Retruns data
+      index._internal.execInhertanceIndex(_id, oldTags, newTags, function (err, result) {
+        done(err);
+      });
+    });
   });
 });

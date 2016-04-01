@@ -29,14 +29,11 @@ exports.handler = function (event, context) {
 internal.processEvent = function (event, cb) {
   // Initialise the document
   var newDoc = internal.initDoc(event);
-  console.log('newDoc:', JSON.stringify(newDoc));
   // Get the existing document if it exists and use it to check if non-inherited tags have been changed
   internal.getCurrentDoc(event._id, function (err, oldDoc) {
-    console.log('oldDoc:', JSON.stringify(oldDoc));
     if (err) return cb(err);
     // Index the new document (create or update) in CloudSearch
     internal.indexNewDoc(newDoc, function (err, data) {
-      console.log('indexed NewDoc:', JSON.stringify(data));
       if (err) return cb(err);
       // Trigger a inheritance indexer if non inharitance tags have been changed
       if (oldDoc) {
@@ -51,16 +48,13 @@ internal.processEvent = function (event, cb) {
 };
 
 internal.execInhertanceIndex = function (_id, oldTags, newTags, cb) {
-  console.log('oldTags, newTags:', JSON.stringify(oldTags), JSON.stringify(newTags));
-  console.log('diff: ', _.difference(oldTags, newTags));
   oldTags = _.filter(oldTags, ['inherited', false]);
   newTags = _.filter(newTags, ['inherited', false]);
-  console.log('filtered oldTags, newTags:', JSON.stringify(oldTags), JSON.stringify(newTags));
-  console.log('diff: ', _.difference(oldTags, newTags));
-  if (_.difference(oldTags, newTags).length > 0) {
+  var diff = _.differenceWith(oldTags, newTags, _.isEqual);
+  if (diff.length > 0) {
     var params = {
       FunctionName: config.indexLambdaFunctionName,
-      Payload: _id,
+      Payload: {tag: _id},
       InvocationType: 'Event'
     };
     AwsHelper.Lambda.invoke(params, function (err, data) {
