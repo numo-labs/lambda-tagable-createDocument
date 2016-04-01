@@ -53,7 +53,7 @@ internal.processEvent = function (event, cb) {
 internal.execInhertanceIndex = function (_id, oldTags, newTags, cb) {
   console.log('oldTags, newTags:', JSON.stringify(oldTags), JSON.stringify(newTags));
   console.log('diff: ', _.difference(oldTags, newTags));
-  oldTags = _.filter(oldTags,  ['inherited', false]);
+  oldTags = _.filter(oldTags, ['inherited', false]);
   newTags = _.filter(newTags, ['inherited', false]);
   console.log('filtered oldTags, newTags:', JSON.stringify(oldTags), JSON.stringify(newTags));
   console.log('diff: ', _.difference(oldTags, newTags));
@@ -67,8 +67,7 @@ internal.execInhertanceIndex = function (_id, oldTags, newTags, cb) {
       if (err) return console.log(err);
       cb(err);
     });
-  }
-  else {
+  } else {
     cb(null);
   }
 };
