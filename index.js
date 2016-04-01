@@ -8,6 +8,12 @@ var config = {
 
 exports.handler = function (event, context) {
   AwsHelper.init(context);
+  if (!AwsHelper._cloudSearchDomain) {
+    AwsHelper._cloudSearchDomain = new AWS.CloudSearchDomain({
+      endpoint: config[AwsHelper.env],
+      region: AwsHelper.region
+    });
+  }
 
   // C heck if an ID is provided
   if (!event._id) {
@@ -30,19 +36,19 @@ internal.processEvent = function (event, cb) {
     id: doc._id,
     fields: {
       id: doc._id,
+      location: [doc.location.lat, doc.location.lon]
       displayname: doc.displayName,
-      activetags: tags.active,
+      amenitytags: tags.amenitytags,
+      geotags: tags.geotags,
+      hoteltags: tags.hoteltags,
+      marketingtags: tags.marketingtags,
+      tiletags: tags.tiletags,
       disabledtags: tags.disabled,
       doc: JSON.stringify(doc)
     }
   }];
 
-  var csd = new AWS.CloudSearchDomain({
-    endpoint: config[AwsHelper.env],
-    region: AwsHelper.region
-  });
-
-  csd.uploadDocuments({
+  AwsHelper._cloudSearchDomain.uploadDocuments({
     contentType: 'application/json',
     documents: JSON.stringify(docsToIndex)
   }, function (err, data) {
@@ -51,16 +57,37 @@ internal.processEvent = function (event, cb) {
 
   function getTags (tags) {
     var result = {
-      active: [],
+      amenitytags: [],
+      geotags: [],
+      hoteltags: [],
+      marketingtags: [],
+      tiletags: [],
       disabled: []
     };
     tags.forEach(function (item) {
       if (item.active) {
-        result.active.push(item.tagId);
+        switch (item.tagId.split(':')[0]) {
+          case 'geo':
+            result.geotags.push(item.tagId);
+            break;
+          case 'hotel':
+            result.hoteltags.push(item.tagId);
+            break;
+          case 'marketing':
+            result.marketingtags.push(item.tagId);
+            break;
+          case 'tile':
+            result.tiletags.push(item.tagId);
+            break;
+          case 'amenity':
+            result.amenitytags.push(item.tagId);
+            break;
+        }
       } else {
         result.disabled.push(item.tagId);
       }
     });
+    console.log(JSON.stringify(result, null, 2));
     return result;
   }
 };
@@ -68,6 +95,7 @@ internal.processEvent = function (event, cb) {
 internal.initDoc = function (event) {
   return {
     _id: event._id,
+    location: event.location || {lat: '', lon: ''},
     displayName: event.displayName || event._id,
     tags: event.tags || [],
     metadata: event.metadata || []
