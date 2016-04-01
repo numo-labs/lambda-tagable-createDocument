@@ -1,0 +1,57 @@
+{
+  "geonames": [
+    {
+      "distance": "0.32068",
+      "timezone": {
+        "gmtOffset": 0,
+        "timeZoneId": "Atlantic/Canary",
+        "dstOffset": 1
+      },
+      "asciiName": "Maspalomas",
+      "countryId": "2510769",
+      "fcl": "P",
+      "adminId2": "2515271",
+      "adminId3": "6360189",
+      "countryCode": "ES",
+      "adminId1": "2593110",
+      "lat": "27.76056",
+      "fcode": "PPL",
+      "continentCode": "EU",
+      "elevation": 0,
+      "adminCode2": "GC",
+      "adminCode3": "35019",
+      "adminCode1": "53",
+      "lng": "-15.58602",
+      "geonameId": 2514042,
+      "toponymName": "Maspalomas",
+      "population": 33000,
+      "adminName5": "",
+      "adminName4": "",
+      "adminName3": "San Bartolomé de Tirajana",
+      "alternateNames": [
+        {
+          "name": "http://en.wikipedia.org/wiki/Maspalomas",
+          "lang": "link"
+        },
+        {
+          "name": "35100",
+          "lang": "post"
+        },
+        {
+          "name": "Маспаломас",
+          "lang": "ru"
+        },
+        {
+          "name": "Maspalomasos",
+          "lang": "sgs"
+        }
+      ],
+      "adminName2": "Las Palmas",
+      "name": "Maspalomas",
+      "fclName": "city, village,...",
+      "countryName": "Spain",
+      "fcodeName": "populated place",
+      "adminName1": "Canary Islands"
+    }
+  ]
+}

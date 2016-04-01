@@ -2,6 +2,10 @@ exports.hotel_mhid_77bvb7p = function () {
   return {
     _id: 'hotel:mhid.77bvb7p',
     displayName: 'All Seasons Resort Europa',
+    location: {
+      lat: '13.1777',
+      long: '-59.63560'
+    },
     tags: [
       {
         tagId: 'geography:geonames.3374084',
@@ -23,10 +27,6 @@ exports.hotel_mhid_77bvb7p = function () {
       }
     ],
     metadata: [
-      {
-        key: 'meta:location',
-        values: ['13.1777', '-59.63560']
-      },
       {
         key: 'search:en',
         values: ['All Seasons Resort Europe']
@@ -52,7 +52,7 @@ exports.hotel_wvHotelPartId_12345 = function () {
   };
 };
 
-exports.geography_geonames_3374084 = function () {
+exports.geography_geonames_10628563 = function () {
   return {
     _id: 'geography:geonames.3374084',
     displayName: 'Barbados',
@@ -67,7 +67,7 @@ exports.geography_geonames_3374084 = function () {
     metadata: [
       {
         key: 'label:en',
-        values: ['Barbados']
+        values: ['Switzerland']
       },
       {
         key: 'geonames:feature',
