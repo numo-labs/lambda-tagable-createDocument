@@ -68,6 +68,9 @@ internal.execInhertanceIndex = function (_id, oldTags, newTags, cb) {
       cb(err);
     });
   }
+  else {
+    cb(null);
+  }
 };
 
 internal.getCurrentDoc = function (_id, cb) {
@@ -155,7 +158,6 @@ internal.getTags = function (tags) {
       result.disabled.push(item.tagId);
     }
   });
-  console.log(JSON.stringify(result, null, 2));
   return result;
 };
 
