@@ -97,6 +97,7 @@ internal.indexNewDoc = function (doc, cb) {
       marketingtags: tags.marketingtags,
       tiletags: tags.tiletags,
       disabledtags: tags.disabled,
+      classes: _.uniq(tags.classes),
       doc: JSON.stringify(doc)
     }
   }];
@@ -126,9 +127,11 @@ internal.getTags = function (tags) {
     hoteltags: [],
     marketingtags: [],
     tiletags: [],
-    disabled: []
+    disabled: [],
+    classes: []
   };
   tags.forEach(function (item) {
+    result.classes.push(item.tagId.split('.')[0]);
     if (item.active) {
       switch (item.tagId.split(':')[0]) {
         case 'geo':

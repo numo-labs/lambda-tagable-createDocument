@@ -5,13 +5,18 @@
   "tags": [
   ],
     "metadata": []
-  }
+  },
   {
     "_id": "geo:geonames.2514042",
     "displayName": "Maspalomas",
+    "location": {
+      "lat": "27.76056",
+      "lon": "-15.58602"
+    },
     "tags": [
       {
         "tagId": "geo:geonames.6360189",
+        "inherited": false,
         "active": true
       } 
     ],
@@ -22,9 +27,14 @@
   {
     "_id": "geo:geonames.6360189",
     "displayName": "San Bartolomé de Tirajana",
+    "location": {
+      "lat": "27.82506",
+      "lon": "-15.58081"
+    },
     "tags": [
       {
         "tagId": "geo:geonames.2515271",
+        "inherited": false,
         "active": true
       } 
     ],
@@ -35,9 +45,14 @@
   {
     "_id": "geo:geonames.2515271",
     "displayName": "Provincia de Las Palmas",
+    "location": {
+      "lat": "28.42039",
+      "lon": "-14.01306"
+    },
     "tags": [
       {
         "tagId": "geo:geonames.2593110",
+        "inherited": false,
         "active": true
       } 
     ],
@@ -48,13 +63,19 @@
   {
     "_id": "geo:geonames.2593110",
     "displayName": "Canary Islands",
+    "location": {
+      "lat": "-15.5",
+      "lon": "-28"
+    },
     "tags": [
       {
         "tagId": "geo:geonames.2510769",
+        "inherited": false,
         "active": true
       },
       {
         "tagId": "geo:isearch.island",
+        "inherited": false,
         "active": true
       }
     ],
@@ -65,9 +86,14 @@
   {
     "_id": "geo:geonames.2510769",
     "displayName": "Kingdom of Spain",
+    "location": {
+      "lat": "40",
+      "lon": "-4"
+    },
     "tags": [
       {
         "tagId": "geo:geonames.6255148",
+        "inherited": false,
         "active": true
       }
     ],
@@ -78,14 +104,13 @@
   {
     "_id": "geo:geonames.6255148",
     "displayName": "Europe",
+    "location": {
+      "lat": "48.69096",
+      "lon": "9.14062"
+    },
     "tags": [
-      {
-        "tagId": "geo:geonames.6295630",
-        "active": true
-      }
     ],
-    "metadata": [
-      
+    "metadata": [   
     ]
   },
   {
