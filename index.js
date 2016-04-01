@@ -5,7 +5,7 @@ var _ = require('lodash');
 
 var config = {
   ci: 'https://doc-taggable-ci-dm62zw5dvzelh2nbvr3ao276zy.eu-west-1.cloudsearch.amazonaws.com',
-  indexLambdaFunctionName: 'lambda-taggable-updateParentTags' // 'lambda-taggable-inheritance-v1'
+  indexLambdaFunctionName: 'lambda-taggable-inheritance-indexer-v1'
 };
 
 exports.handler = function (event, context) {
