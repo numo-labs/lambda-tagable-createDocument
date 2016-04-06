@@ -1,30 +1,75 @@
 var assert = require('assert');
-var handler = require('../lib/handler.js');
+var index = require('./../index');
 var simple = require('simple-mock');
 var AwsHelper = require('aws-lambda-helper');
 var AWS = require('aws-sdk');
 var _ = require('lodash');
 
-var utils = require('./eventFixtures');
-var mockEvent = utils.event
+var eventFixtures = require('./eventFixtures');
 
-describe('Handler functions', function () {
-  it('initTagDoc: should create a doc object from the event', function (done) {
-    var doc = handler.initTagDoc(mockEvent);
-    assert.deepEqual(doc, mockEvent);
+describe('exports.handler function(event, context)', function () {
+  afterEach(function () {
+    simple.restore();
+  });
+
+  it('should throw an error if the event._id is not set', function (done) {
+    var context = {
+      'invokedFunctionArn': 'arn:aws:lambda:eu-west-1:123456789:function:aws-canary-lambda:ci',
+      fail: function (err) {
+        assert.equal(err.message, 'no _id provided');
+        done();
+      },
+      succeed: function (data) {}
+    };
+    var event = {};
+
+    index.handler(event, context);
+  });
+
+  it('should create a doc and use the _id as displayname', function (done) {
+    var event = eventFixtures.getEvent();
+    event = _.omit(event, 'displayName');
+    var doc = index._internal.initDoc(event);
+    event.displayName = event._id;
+    assert.deepEqual(doc, event);
     done();
   });
-  it.only('initTagDoc: should use the id as the displayName, tags and metadata defaulted to []', function (done) {
-    var event = {
-      _id: '12345',
-    }
-    var doc = handler.initTagDoc(event);
-    assert.deepEqual(Object.keys(doc), ['_id', 'location', 'displayName', 'tags', 'metadata']);
-    assert.deepEqual(doc.tags, []);
-    assert.deepEqual(doc.metadata, []);
-    assert.equal(doc.displayName, event._id);
+
+  it('should create a document, tags and content defaulted to []', function (done) {
+    var event = eventFixtures.getEvent();
+    event = _.omit(event, 'tags');
+    event = _.omit(event, 'metadata');
+    var doc = index._internal.initDoc(event);
+    event.tags = [];
+    event.metadata = [];
+    assert.deepEqual(doc, event);
     done();
   });
+
+  // it('should process an event successfully (cloudsearch mocked)', function (done) {
+  //   var context = {
+  //     'invokedFunctionArn': 'arn:aws:lambda:eu-west-1:123456789:function:aws-canary-lambda:prod'
+  //   };
+
+  //   // AwsHelper.init(context);
+  //   // AwsHelper._cloudSearchDomain = new AWS.CloudSearchDomain({
+  //   //   endpoint: 'https://your-index.eu-west-1.cloudsearch.amazonaws.com',
+  //   //   region: AwsHelper.region
+  //   // });
+  //   // // stub the cloudsearch uploadDocuments function
+  //   // simple.mock(AwsHelper._cloudSearchDomain, 'uploadDocuments').callFn(function (params, cb) {
+  //   //   console.log(params);
+  //   //   return cb(null, params);
+  //   // });
+
+  //   // Create a new stubbed event
+  //   var event = eventFixtures.hotel_mhid_77bvb7p();
+
+  //   // Test the handler, assert and done in context function context.succeed
+  //   index._internal.processEvent(event, function (err, data) {
+  //     done(err);
+  //   });
+  // });
 
   it('should process an event successfully (dynamodb mocked) by calling index.handler (fail)', function (done) {
     var context = {
