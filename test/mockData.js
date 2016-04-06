@@ -31,6 +31,21 @@ exports.event = {
   ]
 };
 
+exports.mockCloudSearchResult = {
+  hits: {
+    found: 1,
+    hit: [
+      {
+        fields: {
+          doc: [
+            '{"id": "12345"}'
+          ]
+        }
+      }
+    ]
+  }
+};
+
 exports.hotel_mhid_77bvb7p = {
   _id: 'hotel:mhid.77bvb7p',
   displayName: 'All Seasons Resort Europa',

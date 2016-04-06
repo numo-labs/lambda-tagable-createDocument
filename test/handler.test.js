@@ -1,12 +1,13 @@
 var assert = require('assert');
 var handler = require('../lib/handler.js');
-var simple = require('simple-mock');
+// var simple = require('simple-mock');
 var AwsHelper = require('aws-lambda-helper');
 var AWS = require('aws-sdk-mock');
 var _ = require('lodash');
 
-var utils = require('./eventFixtures');
-var mockEvent = utils.event
+var utils = require('./mockData.js');
+var mockEvent = utils.event;
+var mockCloudSearchResult = utils.mockCloudSearchResult;
 
 describe('Handler functions', function () {
   it('initTagDoc: should create a doc object from the event', function (done) {
@@ -24,13 +25,26 @@ describe('Handler functions', function () {
     done();
   });
   it('getCurrentDoc: returns an error if there is a cloudsearch error', function (done) {
+    var error = new Error('cloudsearch error');
+    AWS.mock('CloudSearchDomain', 'search', function (_, callback) {
+      return callback(error);
+    });
+    handler.getCurrentDoc('12345', function (err, data) {
+      assert.equal(err, error);
+      AWS.restore();
+      done();
+    });
+  });
+  it('getCurrentDoc: returns the tag document if it exists', function (done) {
     AWS.mock('CloudSearchDomain', 'search', function (_, callback) {
       return callback(null, mockCloudSearchResult);
     });
-    var error = new Error('cloudsearch error');
-    simple.mock(AwsHelper, '._cloudSearchDomain').callbackWith(error);
-    // handler.getCurrentDoc(AwsHelper)
-    AWS.restore();
+    handler.getCurrentDoc('12345', function (err, data) {
+      assert.equal(err, null);
+      assert.deepEqual(data, {id: 12345});
+      AWS.restore();
+      done();
+    });
   });
 
 
