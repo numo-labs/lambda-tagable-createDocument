@@ -2,21 +2,17 @@ var AwsHelper = require('aws-lambda-helper');
 var AWS = require('aws-sdk');
 var internal = {};
 var _ = require('lodash');
-
-var config = {
-  ci: 'https://doc-taggable-ci-dm62zw5dvzelh2nbvr3ao276zy.eu-west-1.cloudsearch.amazonaws.com',
-  indexLambdaFunctionName: 'lambda-taggable-inheritance-indexer-v1'
-};
+var config = require('./config.js');
 
 exports.handler = function (event, context) {
   AwsHelper.init(context);
+  // Check if an ID is provided
   if (!AwsHelper._cloudSearchDomain) {
     AwsHelper._cloudSearchDomain = new AWS.CloudSearchDomain({
-      endpoint: config[AwsHelper.env],
+      endpoint: config.cloudsearch[AwsHelper.env],
       region: AwsHelper.region
     });
   }
-  // Check if an ID is provided
   if (!event._id) {
     return context.fail(new Error('no _id provided'));
   }
