@@ -4,9 +4,9 @@
 
 This Lambda is used to add / update documents in the Numo Labs taggable system.
 
-The taggable system stores all documents in a CloudSearch instance which runs as a managed service in the AWS cloud.
+The taggable system stores all documents in a CloudSearch instance which runs as a managed service in the AWS cloud. The tags can be searched by any of their index fields.
 
-Each tag document has the following format:
+Each tag has the following index fields:
 
 ```
 {
@@ -20,7 +20,7 @@ Each tag document has the following format:
   tiletags: // an array of tags with id prefix 'tile' e.g. 'tile:article.spain.98765',
   disabledtags: // an array of tags which have the 'active' field set to 'false',
   classes: // not sure what this is yet...,
-  doc: // a stringified version of the tag information and metadat
+  doc: // a stringified version of the tag information and metadata
 }
 ```
 
@@ -43,8 +43,8 @@ The `doc` field is a JSON string of a tag data which has the following form:
   ],
   "metadata": [
     {
-      "key": "label",
-      "value": "test"
+      "key": "label:en",
+      "values": ["Hotel A"]
     }
   ]
 }
@@ -62,21 +62,29 @@ The lambda function is invoked with the tag data as fields in the event object i
 }
 ```
 
-The tag is added to CloudSearch in several steps
+The tag is added to CloudSearch in several steps:
 
 ### Step 1
-
+A CloudSearch query is launched with the tag id to get the full tag document if it exists.
+A new tag document is created with the new tag data from the event parameters.
 
 ### Step 2
-
+The new tag document is uploaded to CloudSearch - if the tag exists already then it is overwritten with the new tag (NB: You cannot update selected fields, the full document is overwritten with the new version).
 
 ### Step 3
+If the tag already exists, the 'tags' array in the old tag document is compared with the 'tags' array in the new tag document to check if any of the tags which have the `inherited` property set to false have changed - these are the first level linked tags.
 
+If any of the first level links have changed, then the [lambda-taggable-inheritance-indexer](https://github.com/numo-labs/lambda-taggable-inheritance-indexer) function is called with the tag id of the original tag. This lambda updates the linked tags array of all the tags which have been tagged with the modified tag (either directly or through inheritance).
 
 ### Sample queries:
 
- (and activetags:'hotel:NE.wvHotelPartId.12345' (not activetags:'marketing:tile.romantic_beaches')) --> structured query parser !!!
+ **Structured query**
 
+(and activetags:'hotel:NE.wvHotelPartId.12345' (not activetags:'marketing:tile.romantic_beaches'))
 
 (not classes:'geo:geonames')
 (not classes:'geo:geonameswikipedia')
+
+### Further Reading
+* AWS SDK CloudSearch http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudSearchDomain.html
+* Preparing Data for CloudSearch http://docs.aws.amazon.com/cloudsearch/latest/developerguide/preparing-data.html#adding-documents
