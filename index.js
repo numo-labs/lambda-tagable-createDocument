@@ -10,13 +10,6 @@ exports.handler = function (event, context) {
 
   AwsHelper.init(context);
 
-  if (!AwsHelper._cloudSearchDomain) {
-    AwsHelper._cloudSearchDomain = new AWS.CloudSearchDomain({
-      endpoint: config.cloudsearch[AwsHelper.env],
-      region: AwsHelper.region
-    });
-  }
-
   // Initialise the new tag document
   var newTagDoc = handler.initTagDoc(event);
 

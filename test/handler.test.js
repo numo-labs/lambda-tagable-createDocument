@@ -2,7 +2,7 @@ var assert = require('assert');
 var handler = require('../lib/handler.js');
 var simple = require('simple-mock');
 var AwsHelper = require('aws-lambda-helper');
-var AWS = require('aws-sdk');
+var AWS = require('aws-sdk-mock');
 var _ = require('lodash');
 
 var utils = require('./eventFixtures');
@@ -14,10 +14,8 @@ describe('Handler functions', function () {
     assert.deepEqual(doc, mockEvent);
     done();
   });
-  it.only('initTagDoc: should use the id as the displayName, tags and metadata defaulted to []', function (done) {
-    var event = {
-      _id: '12345',
-    }
+  it('initTagDoc: should use the id as the displayName, tags and metadata defaulted to []', function (done) {
+    var event = { _id: '12345' };
     var doc = handler.initTagDoc(event);
     assert.deepEqual(Object.keys(doc), ['_id', 'location', 'displayName', 'tags', 'metadata']);
     assert.deepEqual(doc.tags, []);
@@ -25,50 +23,16 @@ describe('Handler functions', function () {
     assert.equal(doc.displayName, event._id);
     done();
   });
-
-  it('should process an event successfully (dynamodb mocked) by calling index.handler (fail)', function (done) {
-    var context = {
-      'invokedFunctionArn': 'arn:aws:lambda:eu-west-1:123456789:function:aws-canary-lambda:prod',
-      'fail': function (result) {
-        assert.equal(result.message, 'fake-error');
-        done();
-      }
-    };
-
-    // Create a new stubbed event
-    var event = eventFixtures.getEvent();
-
-    // stub the SNS.publish function
-    simple.mock(index._internal, 'processEvent').callFn(function (params, cb) {
-      return cb(new Error('fake-error'), 'ok');
+  it('getCurrentDoc: returns an error if there is a cloudsearch error', function (done) {
+    AWS.mock('CloudSearchDomain', 'search', function (_, callback) {
+      return callback(null, mockCloudSearchResult);
     });
-
-    // Test the handler, assert and done in context function context.succeed
-    // Retruns data
-    index.handler(event, context);
+    var error = new Error('cloudsearch error');
+    simple.mock(AwsHelper, '._cloudSearchDomain').callbackWith(error);
+    // handler.getCurrentDoc(AwsHelper)
+    AWS.restore();
   });
 
-  it('should process an event successfully (mocked) by calling index.handler (succeed)', function (done) {
-    var context = {
-      'invokedFunctionArn': 'arn:aws:lambda:eu-west-1:123456789:function:aws-canary-lambda:prod',
-      'succeed': function (result) {
-        assert.equal(result, 'ok');
-        done();
-      }
-    };
-
-    // Create a new stubbed event
-    var event = eventFixtures.getEvent();
-
-    // stub the SNS.publish function
-    simple.mock(index._internal, 'processEvent').callFn(function (params, cb) {
-      return cb(null, 'ok');
-    });
-
-    // Test the handler, assert and done in context function context.succeed
-    // Retruns data
-    index.handler(event, context);
-  });
 
   describe('execInhertanceIndex', function () {
     it('should be possible to trigger a inhertitance index when tags are different, ', function (done) {
