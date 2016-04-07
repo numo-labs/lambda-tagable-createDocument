@@ -7,13 +7,13 @@ exports.event = {
   },
   tags: [
     {
-      tagId: 'geography:geonames.123',
+      tagId: 'geo:geonames.123',
       source: 'tag:source.user.12234',
       inherited: false,
       active: true
     },
     {
-      tagId: 'geography:geonames.125',
+      tagId: 'geo:geonames.125',
       source: 'tag:source.user.12235',
       inherited: true,
       active: false
