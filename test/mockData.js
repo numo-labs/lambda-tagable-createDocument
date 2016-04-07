@@ -100,3 +100,20 @@ exports.hotel_mhid_77bvb7p = {
     }
   ]
 };
+
+exports.newLinkedTags = [
+  { tagId: 'hotel:12345', active: true, inherited: true },
+  { tagId: 'amenity:12345', active: true, inherited: false },
+  { tagId: 'geo:12345', active: true, inherited: true },
+  { tagId: 'tile:12345', active: true, inherited: false },
+  { tagId: 'marketing:1234', active: true, inherited: false }
+];
+
+exports.currentLinkedTags = [
+  { tagId: 'hotel:12345', active: true, inherited: true },
+  { tagId: 'amenity:12345', active: true, inherited: false },
+  { tagId: 'geo:12345', active: true, inherited: true },
+  { tagId: 'tile:12345', active: true, inherited: false },
+  { tagId: 'marketing:12345', active: true, inherited: false },
+  { tagId: 'marketing:1234', active: false, inherited: false }
+];

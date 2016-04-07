@@ -12,10 +12,10 @@ exports.handler = function (event, context) {
   // Initialise the new tag document
   var newTagDoc = handler.initTagDoc(event);
   // Get the existing tag document if it exists
-  handler.getCurrentDoc(AwsHelper, event._id, function (err, currentTagDoc) {
+  handler.getCurrentDoc(event._id, function (err, currentTagDoc) {
     if (err) { return context.fail(err); }
     // Upload the new document (create or update) in CloudSearch
-    handler.uploadTagDoc(AwsHelper, newTagDoc, function (err, res) {
+    handler.uploadTagDoc(newTagDoc, function (err, res) {
       if (err) { return context.fail(err); }
       // check if doc already exists
       if (currentTagDoc) {
@@ -25,7 +25,7 @@ exports.handler = function (event, context) {
         if (newLinkedTagsAdded) {
           handler.execInheritanceIndexer(event._id, function (err, data) {
             if (err) { return context.fail(err); }
-            return context.suceed(data);
+            return context.succeed(data);
           });
         }
       } else {
