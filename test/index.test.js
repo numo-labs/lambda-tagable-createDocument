@@ -46,14 +46,14 @@ describe('Index handler tests', function () {
     simple.mock(handler, 'getCurrentDoc').callbackWith(null, null);
     simple.mock(handler, 'uploadTagDoc').callbackWith(null, uploadRes);
     function test (result) {
-      assert.deepEqual(JSON.parse(result), uploadRes);
+      assert.equal(result, 'tag created');
       simple.restore();
       done();
     }
     var context = mockContextCreator(ctxOpts, test);
     index.handler({_id: '1234'}, context);
   });
-  it('Context.succeed: called with the result of uploadTagDoc if no new links have been added', function (done) {
+  it('Context.succeed: called with the "tag updated" if no new links have been added', function (done) {
     var uploadRes = {adds: 1, deletes: 0, warnings: []};
     var currentTagDoc = {
       _id: '1234',
@@ -62,7 +62,7 @@ describe('Index handler tests', function () {
     simple.mock(handler, 'getCurrentDoc').callbackWith(null, currentTagDoc);
     simple.mock(handler, 'uploadTagDoc').callbackWith(null, uploadRes);
     function test (result) {
-      assert.deepEqual(JSON.parse(result), uploadRes);
+      assert.equal(result, 'tag updated');
       simple.restore();
       done();
     }

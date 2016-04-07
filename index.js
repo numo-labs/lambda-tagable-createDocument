@@ -26,10 +26,10 @@ exports.handler = function (event, context) {
             return context.succeed(data);
           });
         } else {
-          return context.succeed(res);
+          return context.succeed('tag updated');
         }
       } else {
-        return context.succeed(res);
+        return context.succeed('tag created');
       }
     });
   });
