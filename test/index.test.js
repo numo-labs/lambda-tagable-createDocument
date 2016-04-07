@@ -4,7 +4,7 @@ var simple = require('simple-mock');
 var utils = require('aws-lambda-test-utils');
 var mockContextCreator = utils.mockContextCreator;
 var handler = require('../lib/handler.js');
-var mockData = require('./mockData.js');
+var mockData = require('./utils/mockData.js');
 var ctxOpts = {
   invokedFunctionArn: 'arn:aws:lambda:eu-west-1:655240711487:function:LambdaTest:ci'
 };

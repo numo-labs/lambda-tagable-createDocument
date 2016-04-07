@@ -4,7 +4,7 @@ var simple = require('simple-mock');
 var AWS = require('aws-sdk-mock');
 var AwsHelper = require('aws-lambda-helper');
 
-var mockData = require('./mockData.js');
+var mockData = require('./utils/mockData.js');
 var mockEvent = mockData.event;
 var mockCloudSearchResult = mockData.mockCloudSearchResult;
 
