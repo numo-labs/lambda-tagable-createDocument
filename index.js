@@ -1,6 +1,4 @@
 var AwsHelper = require('aws-lambda-helper');
-var AWS = require('aws-sdk');
-var config = require('./config.js');
 var handler = require('./lib/handler.js');
 
 exports.handler = function (event, context) {
@@ -27,6 +25,8 @@ exports.handler = function (event, context) {
             if (err) { return context.fail(err); }
             return context.succeed(data);
           });
+        } else {
+          return context.succeed(res);
         }
       } else {
         return context.succeed(res);

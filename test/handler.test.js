@@ -1,13 +1,12 @@
 var assert = require('assert');
 var handler = require('../lib/handler.js');
-// var simple = require('simple-mock');
-var AwsHelper = require('aws-lambda-helper');
+var simple = require('simple-mock');
 var AWS = require('aws-sdk-mock');
-var _ = require('lodash');
+var AwsHelper = require('aws-lambda-helper');
 
-var utils = require('./mockData.js');
-var mockEvent = utils.event;
-var mockCloudSearchResult = utils.mockCloudSearchResult;
+var mockData = require('./mockData.js');
+var mockEvent = mockData.event;
+var mockCloudSearchResult = mockData.mockCloudSearchResult;
 
 describe('Handler functions', function () {
   it('initTagDoc: should create a doc object from the event', function (done) {
@@ -129,6 +128,24 @@ describe('Handler functions', function () {
     handler.uploadTagDoc(mockEvent, function (err, data) {
       assert.equal(err, error);
       AWS.restore();
+      done();
+    });
+  });
+  it('execInheritanceIndexer: calls the callback with an error if there is a lambda invoke error', function (done) {
+    var error = new Error('lambda invoke error');
+    simple.mock(AwsHelper.Lambda, 'invoke').callbackWith(error);
+    handler.execInheritanceIndexer('1234', function (err, data) {
+      assert.equal(err, error);
+      simple.restore();
+      done();
+    });
+  });
+  it('execInheritanceIndexer: calls the callback with the response from the lambda', function (done) {
+    simple.mock(AwsHelper.Lambda, 'invoke').callbackWith(null, {});
+    handler.execInheritanceIndexer('1234', function (err, data) {
+      assert.equal(err, null);
+      assert.deepEqual(data, {});
+      simple.restore();
       done();
     });
   });

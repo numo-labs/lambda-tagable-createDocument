@@ -1,8 +1,7 @@
 var assert = require('assert');
 var index = require('../index');
 var simple = require('simple-mock');
-var AWS = require('aws-sdk');
-var utils = require('aws-lambda-test-utils')
+var utils = require('aws-lambda-test-utils');
 var mockContextCreator = utils.mockContextCreator;
 var handler = require('../lib/handler.js');
 var mockData = require('./mockData.js');
@@ -54,6 +53,22 @@ describe('Index handler tests', function () {
     var context = mockContextCreator(ctxOpts, test);
     index.handler({_id: '1234'}, context);
   });
+  it('Context.succeed: called with the result of uploadTagDoc if no new links have been added', function (done) {
+    var uploadRes = {adds: 1, deletes: 0, warnings: []};
+    var currentTagDoc = {
+      _id: '1234',
+      tags: mockData.currentLinkedTags
+    };
+    simple.mock(handler, 'getCurrentDoc').callbackWith(null, currentTagDoc);
+    simple.mock(handler, 'uploadTagDoc').callbackWith(null, uploadRes);
+    function test (result) {
+      assert.deepEqual(JSON.parse(result), uploadRes);
+      simple.restore();
+      done();
+    }
+    var context = mockContextCreator(ctxOpts, test);
+    index.handler(currentTagDoc, context);
+  });
   it('Context.succeed: called with the result of execInheritanceIndexer if tag exists and has been modified', function (done) {
     var uploadRes = {adds: 1, deletes: 0, warnings: []};
     var currentTagDoc = {
@@ -69,6 +84,28 @@ describe('Index handler tests', function () {
     simple.mock(handler, 'execInheritanceIndexer').callbackWith(null, {});
     function test (result) {
       assert.deepEqual(JSON.parse(result), {});
+      simple.restore();
+      done();
+    }
+    var context = mockContextCreator(ctxOpts, test);
+    index.handler(newTagDoc, context);
+  });
+  it('Context.succeed: called with an error if execInheritanceIndexer returns an error', function (done) {
+    var uploadRes = {adds: 1, deletes: 0, warnings: []};
+    var currentTagDoc = {
+      _id: '1234',
+      tags: mockData.currentLinkedTags
+    };
+    var newTagDoc = {
+      _id: '1234',
+      tags: mockData.newLinkedTags
+    };
+    var error = new Error('lambda invoke error');
+    simple.mock(handler, 'getCurrentDoc').callbackWith(null, currentTagDoc);
+    simple.mock(handler, 'uploadTagDoc').callbackWith(null, uploadRes);
+    simple.mock(handler, 'execInheritanceIndexer').callbackWith(error);
+    function test (err) {
+      assert.deepEqual(err, error);
       simple.restore();
       done();
     }
