@@ -28,14 +28,14 @@
     "request": "^2.69.0"
   },
   "devDependencies": {
+    "aws-lambda-test-utils": "^1.0.2",
     "aws-sdk": "^2.2.40",
+    "aws-sdk-mock": "^1.0.10",
     "dpl": "1.0.6",
-    "eslint": "^1.10.3",
-    "eslint-config-semistandard": "^5.0.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
-    "simple-mock": "^0.6.0",
-    "semistandard": "^7.0.5"
+    "semistandard": "^7.0.5",
+    "simple-mock": "^0.6.0"
   },
   "files_to_deploy": [
     "package.json",
