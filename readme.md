@@ -62,19 +62,19 @@ The lambda function is invoked with the tag data as fields in the event object i
 }
 ```
 
-The tag is added to CloudSearch in several steps:
+The tag is added/updated in CloudSearch in several steps:
 
 ### Step 1
-A CloudSearch query is launched with the tag id to get the full tag document if it exists.
-A new tag document is created with the new tag data from the event parameters.
+A CloudSearch query is launched with a tag id of a modified/newly created tag (**NEW_TAG**) to get the full tag document if it exists.
+A new tag document is created with the tag data from the event parameters.
 
 ### Step 2
-The new tag document is uploaded to CloudSearch - if the tag exists already then it is overwritten with the new tag (NB: You cannot update selected fields, the full document is overwritten with the new version).
+The new document for **NEW_TAG** is uploaded to CloudSearch - if **NEW_TAG** exists already, then it is overwritten with the new tag document _(NB: You cannot update selected fields, the full document is overwritten with the new version)_.
 
 ### Step 3
-If the tag already exists, the 'tags' array in the old tag document is compared with the 'tags' array in the new tag document to check if any of the tags which have the `inherited` property set to false have changed - these are the first level linked tags.
+If **NEW_TAG** already exists, the 'tags' array in the old tag document is compared with the 'tags' array in the new tag document to check if any of the tags which have the `inherited` property set to false have changed - these are the first level linked tags.
 
-If any of the first level links have changed, then the [lambda-taggable-inheritance-indexer](https://github.com/numo-labs/lambda-taggable-inheritance-indexer) function is called with the tag id of the original tag. This lambda updates the linked tags array of all the tags which have been tagged with the modified tag (either directly or through inheritance).
+If any of the first level links have changed, then the [lambda-taggable-inheritance-indexer](https://github.com/numo-labs/lambda-taggable-inheritance-indexer) function is called with the tag id of **NEW_TAG**. This lambda updates the linked tags array of all the tags which have been tagged with **NEW_TAG** (either directly or through inheritance).
 
 ### Sample queries:
 
