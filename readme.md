@@ -2,7 +2,9 @@
 
 [![Codeship](https://img.shields.io/codeship/d827f9c0-cce6-0133-f31d-66f6dcee1305.svg)](https://codeship.com/projects/140359/)
 
-This Lambda is used to add / update documents in the Numo Labs taggable system.
+This Lambda is used to add / update documents in the Numo Labs taggable system. The tagging system structure is shown below:
+
+![taggable-diagram](https://cloud.githubusercontent.com/assets/5912647/14384190/8ca7489e-fd91-11e5-94e0-aea421945a1b.png)
 
 The taggable system stores all documents in a CloudSearch instance which runs as a managed service in the AWS cloud. The tags can be searched by any of their index fields.
 
