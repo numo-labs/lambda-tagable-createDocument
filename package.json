@@ -39,7 +39,9 @@
   },
   "files_to_deploy": [
     "package.json",
-    "index.js"
+    "index.js",
+    "/lib",
+    "config.js"
   ],
   "semistandard": {
     "globals": [
