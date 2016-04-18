@@ -26,10 +26,10 @@ exports.handler = function (event, context) {
             return context.succeed(data);
           });
         } else {
-          return context.succeed('tag updated');
+          return context.succeed(newTagDoc);
         }
       } else {
-        return context.succeed('tag created');
+        return context.succeed(newTagDoc);
       }
     });
   });
