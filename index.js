@@ -23,7 +23,15 @@ exports.handler = function (event, context) {
         if (newLinkedTagsAdded) {
           handler.execInheritanceIndexer(event._id, function (err, data) {
             if (err) { return context.fail(err); }
-            return context.succeed(data);
+            /*
+            * returned data is of the form
+            * {
+            *   numChildTagsUpdated: numProcessedDocs,
+            *   totalChildTags: numChildTags
+            * }
+            * but graphql expects a full tag document
+            */
+            return context.succeed(newTagDoc);
           });
         } else {
           return context.succeed(newTagDoc);
