@@ -69,7 +69,7 @@ describe('Index handler tests', function () {
     var context = mockContextCreator(ctxOpts, test);
     index.handler(currentTagDoc, context);
   });
-  it('Context.succeed: called with the result of execInheritanceIndexer if tag exists and has been modified', function (done) {
+  it('Context.succeed: called with the new tag even if execInheritanceIndexer if tag exists and has been modified (graphql expects a tag object to be returned)', function (done) {
     var uploadRes = {adds: 1, deletes: 0, warnings: []};
     var currentTagDoc = {
       _id: '1234',
@@ -77,13 +77,19 @@ describe('Index handler tests', function () {
     };
     var newTagDoc = {
       _id: '1234',
-      tags: mockData.newLinkedTags
+      location: {
+        lat: '',
+        lon: ''
+      },
+      displayName: '1234',
+      tags: mockData.newLinkedTags,
+      metadata: []
     };
     simple.mock(handler, 'getCurrentDoc').callbackWith(null, currentTagDoc);
     simple.mock(handler, 'uploadTagDoc').callbackWith(null, uploadRes);
     simple.mock(handler, 'execInheritanceIndexer').callbackWith(null, {});
     function test (result) {
-      assert.deepEqual(JSON.parse(result), {});
+      assert.deepEqual(JSON.parse(result), newTagDoc);
       simple.restore();
       done();
     }
