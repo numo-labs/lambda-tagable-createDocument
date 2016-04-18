@@ -46,14 +46,14 @@ describe('Index handler tests', function () {
     simple.mock(handler, 'getCurrentDoc').callbackWith(null, null);
     simple.mock(handler, 'uploadTagDoc').callbackWith(null, uploadRes);
     function test (result) {
-      assert.equal(result, 'tag created');
+      assert.deepEqual(result, JSON.stringify({ _id: '1234', location: { lat: '', lon: '' }, displayName: '1234', tags: [], metadata: [] }));
       simple.restore();
       done();
     }
     var context = mockContextCreator(ctxOpts, test);
     index.handler({_id: '1234'}, context);
   });
-  it('Context.succeed: called with the "tag updated" if no new links have been added', function (done) {
+  it('Context.succeed: called with the updated tag if no new links have been added', function (done) {
     var uploadRes = {adds: 1, deletes: 0, warnings: []};
     var currentTagDoc = {
       _id: '1234',
@@ -62,7 +62,7 @@ describe('Index handler tests', function () {
     simple.mock(handler, 'getCurrentDoc').callbackWith(null, currentTagDoc);
     simple.mock(handler, 'uploadTagDoc').callbackWith(null, uploadRes);
     function test (result) {
-      assert.equal(result, 'tag updated');
+      assert.deepEqual(result, JSON.stringify(mockData.updatedTagDoc));
       simple.restore();
       done();
     }
