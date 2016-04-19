@@ -27,6 +27,10 @@ exports.event = {
     {
       key: 'search:en',
       values: ['Hotel ABC']
+    },
+    {
+      key: 'search:dk',
+      values: ['Hotel CBA', 'Hotel CBA 1']
     }
   ],
   content: {}
