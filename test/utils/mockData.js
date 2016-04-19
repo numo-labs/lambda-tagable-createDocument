@@ -28,7 +28,8 @@ exports.event = {
       key: 'search:en',
       values: ['Hotel ABC']
     }
-  ]
+  ],
+  content: {}
 };
 
 exports.mockCloudSearchResult = {
@@ -98,7 +99,8 @@ exports.hotel_mhid_77bvb7p = {
       key: 'label:en',
       values: ['All Seasons Resort Europa']
     }
-  ]
+  ],
+  content: {}
 };
 
 exports.newLinkedTags = [
@@ -157,5 +159,6 @@ exports.updatedTagDoc = {
       'inherited': false
     }
   ],
-  'metadata': []
+  'metadata': [],
+  content: {}
 };

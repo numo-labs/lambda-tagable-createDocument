@@ -46,7 +46,7 @@ describe('Index handler tests', function () {
     simple.mock(handler, 'getCurrentDoc').callbackWith(null, null);
     simple.mock(handler, 'uploadTagDoc').callbackWith(null, uploadRes);
     function test (result) {
-      assert.deepEqual(result, JSON.stringify({ _id: '1234', location: { lat: '', lon: '' }, displayName: '1234', tags: [], metadata: [] }));
+      assert.deepEqual(result, JSON.stringify({ _id: '1234', location: { lat: '', lon: '' }, displayName: '1234', tags: [], metadata: [], content: {} }));
       simple.restore();
       done();
     }
@@ -83,7 +83,8 @@ describe('Index handler tests', function () {
       },
       displayName: '1234',
       tags: mockData.newLinkedTags,
-      metadata: []
+      metadata: [],
+      content: {}
     };
     simple.mock(handler, 'getCurrentDoc').callbackWith(null, currentTagDoc);
     simple.mock(handler, 'uploadTagDoc').callbackWith(null, uploadRes);

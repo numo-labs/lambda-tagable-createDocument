@@ -17,7 +17,7 @@ describe('Handler functions', function () {
   it('initTagDoc: should use the id as the displayName, tags and metadata defaulted to []', function (done) {
     var event = { _id: '12345' };
     var doc = handler.initTagDoc(event);
-    assert.deepEqual(Object.keys(doc), ['_id', 'location', 'displayName', 'tags', 'metadata']);
+    assert.deepEqual(Object.keys(doc), ['_id', 'location', 'displayName', 'tags', 'metadata', 'content']);
     assert.deepEqual(doc.tags, []);
     assert.deepEqual(doc.metadata, []);
     assert.equal(doc.displayName, event._id);
