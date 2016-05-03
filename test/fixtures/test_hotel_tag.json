@@ -1,0 +1,64 @@
+{
+  "_id": "test:hotel.mhid.12345",
+  "displayName": "All Seasons Resort Europa",
+  "location": {
+    "lat": "13.1777",
+    "lon": "-59.63560"
+  },
+  "tags": [
+    {
+      "tagId": "geo:geonames.3374084",
+      "source": "geonames",
+      "inherited": false,
+      "active": true
+    },
+    {
+      "tagId": "hotel:NE.wvHotelPartId.12345",
+      "source": "master_hotel_mapping",
+      "inherited": false,
+      "active": true
+    },
+    {
+      "tagId": "marketing:concept.sunprime",
+      "source": "geo:geonames.3374084",
+      "inherited": true,
+      "active": true
+    },
+    {
+      "tagId": "amenity:hotel.swimmingpool",
+      "source": "user",
+      "inherited": false,
+      "active": true
+    },
+    {
+      "tagId": "tile:concept.other",
+      "source": "user",
+      "inherited": true,
+      "active": true
+    }
+  ],
+  "metadata": [
+    {
+      "key": "search:en",
+      "values": ["All Seasons Resort Europe"]
+    },
+    {
+      "key": "search:fr",
+      "values": ["All Seasons Resort en Europe", "All Seasons Resort Europe"]
+    },
+    {
+      "key": "label:en",
+      "values": ["All Seasons Resort Europa"]
+    }
+  ],
+  "content": {},
+  "markets": {
+    "dk": {
+      "da": {
+        "label": "search",
+        "values": ["Provence-Alpes-CÃ´te d'Azur"]
+
+      }
+    }
+  }
+}
