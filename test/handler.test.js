@@ -1,13 +1,11 @@
 var assert = require('assert');
 var handler = require('../lib/handler.js');
-
-var mockData = require('./utils/mockData.js');
-var mockEvent = mockData.event;
+var mock_event = require('./fixtures/mock_event.json');
 
 describe('Handler functions', function () {
   it('initTagDoc: should create a doc object from the event', function (done) {
-    var doc = handler.initTagDoc(mockEvent);
-    assert.deepEqual(doc, mockEvent);
+    var doc = handler.initTagDoc(mock_event);
+    assert.deepEqual(doc, mock_event);
     done();
   });
   it('initTagDoc: should use the id as the displayName, tags and metadata defaulted to []', function (done) {

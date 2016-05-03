@@ -2,7 +2,7 @@ var assert = require('assert');
 var index = require('../index');
 var utils = require('aws-lambda-test-utils');
 var mockContextCreator = utils.mockContextCreator;
-var mockData = require('./utils/mockData.js');
+var test_hotel_tag = require('./fixtures/test_hotel_tag.json');
 var ctxOpts = {
   invokedFunctionArn: 'arn:aws:lambda:eu-west-1:123456789:function:LambdaTest:ci'
 };
@@ -20,11 +20,11 @@ describe('Index handler tests', function () {
   it('Context.succeed: called with the newTagDoc', function (done) {
     var context = {
       succeed: function (result) { // here's your test:
-        assert.deepEqual(result, mockData.test_hotel_tag);
+        assert.deepEqual(result, test_hotel_tag);
         done();
       },
       invokedFunctionArn: ctxOpts.invokedFunctionArn
     };
-    index.handler(mockData.test_hotel_tag, context);
+    index.handler(test_hotel_tag, context);
   });
 });
