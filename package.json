@@ -33,7 +33,7 @@
     "aws-sdk": "^2.2.40",
     "aws-sdk-mock": "^1.0.10",
     "decache": "^3.0.5",
-    "dpl": "1.0.6",
+    "dpl": "^3.0.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "semistandard": "^7.0.5",
