@@ -33,26 +33,12 @@ exports.event = {
       values: ['Hotel CBA', 'Hotel CBA 1']
     }
   ],
-  content: {}
+  content: {},
+  markets: {}
 };
 
-exports.mockCloudSearchResult = {
-  hits: {
-    found: 1,
-    hit: [
-      {
-        fields: {
-          doc: [
-            '{"id": "12345"}'
-          ]
-        }
-      }
-    ]
-  }
-};
-
-exports.hotel_mhid_77bvb7p = {
-  _id: 'hotel:mhid.77bvb7p',
+exports.test_hotel_tag = {
+  _id: 'test:hotel.mhid.77bvb7p',
   displayName: 'All Seasons Resort Europa',
   location: {
     lat: '13.1777',
@@ -104,65 +90,15 @@ exports.hotel_mhid_77bvb7p = {
       values: ['All Seasons Resort Europa']
     }
   ],
-  content: {}
-};
-
-exports.newLinkedTags = [
-  { tagId: 'hotel:12345', active: true, inherited: true },
-  { tagId: 'amenity:12345', active: true, inherited: false },
-  { tagId: 'geo:12345', active: true, inherited: true },
-  { tagId: 'tile:12345', active: true, inherited: false },
-  { tagId: 'marketing:1234', active: true, inherited: false }
-];
-
-exports.currentLinkedTags = [
-  { tagId: 'hotel:12345', active: true, inherited: true },
-  { tagId: 'amenity:12345', active: true, inherited: false },
-  { tagId: 'geo:12345', active: true, inherited: true },
-  { tagId: 'tile:12345', active: true, inherited: false },
-  { tagId: 'marketing:12345', active: true, inherited: false },
-  { tagId: 'marketing:1234', active: false, inherited: false }
-];
-
-exports.updatedTagDoc = {
-  '_id': '1234',
-  'location': {
-    'lat': '',
-    'lon': ''
-  },
-  'displayName': '1234',
-  'tags': [
-    {
-      'tagId': 'hotel:12345',
-      'active': true,
-      'inherited': true
-    },
-    {
-      'tagId': 'amenity:12345',
-      'active': true,
-      'inherited': false
-    },
-    {
-      'tagId': 'geo:12345',
-      'active': true,
-      'inherited': true
-    },
-    {
-      'tagId': 'tile:12345',
-      'active': true,
-      'inherited': false
-    },
-    {
-      'tagId': 'marketing:12345',
-      'active': true,
-      'inherited': false
-    },
-    {
-      'tagId': 'marketing:1234',
-      'active': false,
-      'inherited': false
+  content: {},
+  'markets': {
+    'dk': {
+      'da': {
+        'label': 'search',
+        'values': [
+          'Provence-Alpes-CÃ´te d\'Azur'
+        ]
+      }
     }
-  ],
-  'metadata': [],
-  content: {}
+  }
 };

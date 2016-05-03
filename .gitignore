@@ -12,3 +12,4 @@ dist
 #Archived lambda
 *.zip
 /coverage
+.env
