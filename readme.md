@@ -5,16 +5,18 @@
 This Lambda is used to add / update documents in the Numo Labs taggable system.  
 The tagging system structure is shown below:
 
-![taggable-diagram](https://cloud.githubusercontent.com/assets/5912647/14384190/8ca7489e-fd91-11e5-94e0-aea421945a1b.png)
+![inspirational-search-taggable-system](https://cloud.githubusercontent.com/assets/194400/14984413/671c8938-113a-11e6-8b76-3af618041161.png)
+[Link to edit this diagram](https://docs.google.com/presentation/d/1J2tsHMdnq84XQeZI10T_7vL1vTj-BWMZSgW1Dg-YzV8/edit#slide=id.g12364df475_3_0)
 
 The taggable system stores all documents in an S3 Bucket (`'numo-taggy'`).  
 e.g: https://numo-taggy.s3.amazonaws.com/ci/geo/geonames/geo%3Ageonames.2985244.json  
 When a tag (`.json` file) is inserted/updated in the S3 Bucket
-this triggers *two* Lambda functions:
-+ 1. Update record in CloudSearch `taggy-ci`: https://github.com/numo-labs/lambda-taggable-cloudsearch-indexer
-+ 2. Update record in Neo4J: https://github.com/numo-labs/lambda-taggable-neo4j-indexer
+this ***triggers two Lambda functions***:
++ 1 - Update record in CloudSearch `taggy-ci`: https://github.com/numo-labs/lambda-taggable-cloudsearch-indexer
++ 2 - Update record in Neo4J: https://github.com/numo-labs/lambda-taggable-neo4j-indexer
 
-Both Neo4J and CloudSearch are run as a managed service in the AWS cloud.
+Both CloudSearch & Neo4J are run as a managed service in the AWS cloud.
+Ask [Pascal](https://twitter.com/plaenen) for for more info.
 
 
 The lambda function is invoked with the tag data as fields in the `event` object
@@ -30,7 +32,12 @@ i.e the `event` object has the form:
   markets // object of objects
 }
 ```
-see:
+
+> If you need a sample event to test-run this lambda in the AWS Console,
+see: [/test/fixtures/test_hotel_tag.json](https://github.com/numo-labs/lambda-taggable-createDocument/blob/7c742e5963aaa25bfea2eee1d2ee55d66c3c9a6f/test/fixtures/test_hotel_tag.json)  
+> In the AWS Console you should see something like:  
+> ` - - - -> Tag test:hotel.mhid.77bvb7p Saved to S3: https://numo-taggy.s3-eu-west-1.amazonaws.com/ci/test/hotel/test%3Ahotel.mhid.77bvb7p.json`  
+The URL is is your newly created/updated tag.
 
 ## Environment Variables
 
