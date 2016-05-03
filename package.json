@@ -1,6 +1,6 @@
 {
   "name": "lambda-taggable-createdocument",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "create or update a taggable document",
   "main": "index.js",
   "scripts": {
