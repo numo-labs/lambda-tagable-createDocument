@@ -1,0 +1,28 @@
+{
+  "_id": "test:hotel:mhid.nogeotag",
+  "displayName": "SENTIDO Ixian All Suites",
+  "location": {
+    "lat": "36.41940",
+    "lon": "28.17150"
+  },
+  "tags": [
+    {
+      "node": "hotel:mhid.NO_MHID",
+      "edge": "LOCATED_IN",
+      "source": "master_hotel_mapping",
+      "active": false
+    }
+  ],
+  "metadata": [],
+  "markets": {
+    "dk": {
+      "da": {
+        "label": "SENTIDO Ixian All Suites, Rhodos vestkyst",
+        "values": [
+          "SENTIDO Ixian All Suites, Rhodos vestkyst"
+        ]
+      }
+    }
+  },
+  "content": {}
+}
