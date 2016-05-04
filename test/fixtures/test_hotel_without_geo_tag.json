@@ -1,19 +1,11 @@
 {
-  "_id": "test:hotel.mhid.zv3gvaa",
+  "_id": "test:hotel.mhid.abcd",
   "displayName": "SENTIDO Ixian All Suites",
   "location": {
     "lat": "36.41940",
     "lon": "28.17150"
   },
-  "tags": [
-    {
-      "node": "geo:geonames.252685",
-      "edge": "LOCATED_IN",
-      "displayName": "Ialysos",
-      "source": "geonames",
-      "active": true
-    }
-  ],
+  "tags": [],
   "metadata": [],
   "markets": {
     "dk": {
