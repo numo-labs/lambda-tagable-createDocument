@@ -50,6 +50,7 @@ export AWS_REGION=eu-west-1
 export AWS_IAM_ROLE=arn:aws:iam::123456789:role/lambdafull
 export AWS_ACCESS_KEY_ID=YORKIE
 export AWS_SECRET_ACCESS_KEY=SUPERSECRET
+
 ```
 > Obviously you will need to set the correct values.
 > If you are stuck ask!

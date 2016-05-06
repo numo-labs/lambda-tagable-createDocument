@@ -7,10 +7,12 @@ exports.handler = function (event, context) {
     return context.fail(new Error('no _id provided'));
   }
   AwsHelper.init(context);
-  var newTagDoc = handler.initTagDoc(event);
-  handler.s3_create(newTagDoc, function (err, data) {
+  handler.initTagDoc(event, function (err, newTagDoc) {
     AwsHelper.failOnError(err, event, context);
-    console.log(' - - - -> Tag ' + event._id + ' Saved to S3:', data.Location);
-    return context.succeed(newTagDoc);
+    handler.s3_create(newTagDoc, function (err, data) {
+      AwsHelper.failOnError(err, event, context);
+      console.log(' - - - -> Tag ' + event._id + ' Saved to S3:', data.Location);
+      return context.succeed(newTagDoc);
+    });
   });
 };
