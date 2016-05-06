@@ -1,12 +1,14 @@
 var assert = require('assert');
 var handler = require('../lib/handler.js');
-var mock_event = require('./fixtures/test_hotel_tag.json');
+var test_hotel_tag = require('./fixtures/test_hotel_tag.json');
+// console.log(test_hotel_tag);
 
 describe('lib/handler.js', function () {
   it('initTagDoc: should create a doc object from the event', function (done) {
-    handler.initTagDoc(mock_event, function (err, doc) {
+    handler.initTagDoc(test_hotel_tag, function (err, doc) {
       if (err) console.log(err);
-      assert.deepEqual(doc, mock_event);
+      // console.log(doc);
+      assert.deepEqual(doc, test_hotel_tag);
       done();
     });
   });
@@ -15,7 +17,7 @@ describe('lib/handler.js', function () {
     var event = { _id: '12345' };
     handler.initTagDoc(event, function (err, doc) {
       if (err) console.log(err);
-      assert.deepEqual(Object.keys(doc), ['_id', 'location', 'displayName', 'tags', 'metadata', 'content', 'markets']);
+      assert.deepEqual(Object.keys(doc), ['_id', 'location', 'displayName', 'tags', 'metadata', 'content', 'markets', 'active']);
       assert.deepEqual(doc.tags, []);
       assert.deepEqual(doc.metadata, []);
       assert.equal(doc.displayName, event._id);
@@ -28,7 +30,7 @@ describe('lib/handler.js', function () {
     handler.initTagDoc(event, function (err, doc) {
       if (err) console.log(err);
       // console.log(doc);
-      assert.deepEqual(Object.keys(doc), ['_id', 'location', 'displayName', 'tags', 'metadata', 'content', 'markets']);
+      assert.deepEqual(Object.keys(doc), ['_id', 'location', 'displayName', 'tags', 'metadata', 'content', 'markets', 'active']);
       assert.equal(doc.tags.length, 1);
       assert.equal(doc.tags[0].node, 'geo:geonames.2634643');
       assert.equal(doc.displayName, event._id);
@@ -41,7 +43,7 @@ describe('lib/handler.js', function () {
     handler.initTagDoc(event, function (err, doc) {
       if (err) console.log(err);
       // console.log(doc);
-      assert.deepEqual(Object.keys(doc), ['_id', 'location', 'displayName', 'tags', 'metadata', 'content', 'markets']);
+      assert.deepEqual(Object.keys(doc), ['_id', 'location', 'displayName', 'tags', 'metadata', 'content', 'markets', 'active']);
       // console.log(doc.tags);
       assert(doc.tags.length > 0);
       assert.equal(doc.tags[1].node, 'geo:geonames.261702');
