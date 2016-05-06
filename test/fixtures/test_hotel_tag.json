@@ -1,5 +1,5 @@
 {
-  "_id": "test:hotel.mhid.zv3gvaa",
+  "_id": "test:hotel:mhid.zv3gvaa",
   "displayName": "SENTIDO Ixian All Suites",
   "location": {
     "lat": "36.41940",
@@ -11,6 +11,13 @@
       "edge": "LOCATED_IN",
       "displayName": "Ialysos",
       "source": "geonames",
+      "active": true
+    },
+    {
+      "node": "marketing:scuba.1234",
+      "edge": "HAS",
+      "displayName": "You For Scuba?",
+      "source": "dummy",
       "active": true
     }
   ],

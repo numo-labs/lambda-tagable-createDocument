@@ -27,7 +27,7 @@ describe('lib/handler.js', function () {
     var event = { _id: 'test:hotel:mhid.12345', location: { lat: 52.9875, lon: 1.8865 } };
     handler.initTagDoc(event, function (err, doc) {
       if (err) console.log(err);
-      console.log(doc);
+      // console.log(doc);
       assert.deepEqual(Object.keys(doc), ['_id', 'location', 'displayName', 'tags', 'metadata', 'content', 'markets']);
       assert.equal(doc.tags.length, 1);
       assert.equal(doc.tags[0].node, 'geo:geonames.2634643');
@@ -35,15 +35,27 @@ describe('lib/handler.js', function () {
       done();
     });
   });
-  // it.only('initTagDoc: should lookup the Geonames Tag if not set', function (done) {
-  //   var event = require('./fixtures/test_hotel_with_non_geo_tags.json');
-  //   handler.initTagDoc(event, function (err, doc) {
-  //     if (err) console.log(err);
-  //     console.log(doc);
-  //     assert.deepEqual(Object.keys(doc), ['_id', 'location', 'displayName', 'tags', 'metadata', 'content', 'markets']);
-  //     assert.equal(doc.tags.length, 1);
-  //     assert.equal(doc.tags[1].node, 'geo:geonames.2634643');
-  //     done();
-  //   });
-  // });
+
+  it('initTagDoc: should lookup the Geonames Tag if not set', function (done) {
+    var event = require('./fixtures/test_hotel_with_non_geo_tags.json');
+    handler.initTagDoc(event, function (err, doc) {
+      if (err) console.log(err);
+      // console.log(doc);
+      assert.deepEqual(Object.keys(doc), ['_id', 'location', 'displayName', 'tags', 'metadata', 'content', 'markets']);
+      // console.log(doc.tags);
+      assert(doc.tags.length > 0);
+      assert.equal(doc.tags[1].node, 'geo:geonames.261702');
+      done();
+    });
+  });
+
+  it('initTagDoc: invoke the geo lambda with invalid Lat/Lon', function (done) {
+    var event = { _id: 'test:hotel:mhid.badhotel', location: { lat: 190, lon: 190 } };
+    handler.initTagDoc(event, function (err, doc) {
+      if (err) console.log(err);
+      // console.log(doc);
+      assert.equal(doc.displayName, event._id);
+      done();
+    });
+  });
 });
