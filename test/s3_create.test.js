@@ -3,8 +3,15 @@ require('decache')('../lib/s3_create'); // delete cache for test
 var assert = require('assert');
 var s3_create = require('../lib/s3_create');
 var base_url = 'https://numo-taggy.s3-eu-west-1.amazonaws.com/ci/';
+var AwsHelper = require('aws-lambda-helper');
 
 describe('Save record to S3', function () {
+  before(function (done) {
+    AwsHelper.init({
+      invokedFunctionArn: 'arn:aws:lambda:eu-west-1:123456789:function:mylambda'
+    }, {});
+    done();
+  });
   it('create a record on S3 with json data', function (done) {
     var obj = {
       displayName: 'hello world',
