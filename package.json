@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/numo-labs/lambda-taggable-createDocument#readme",
   "dependencies": {
-    "aws-lambda-helper": "^2.6.0",
+    "aws-lambda-helper": "^2.10.0",
     "env2": "^2.0.7"
   },
   "devDependencies": {
@@ -42,6 +42,7 @@
   ],
   "semistandard": {
     "globals": [
+      "before",
       "describe",
       "it",
       "afterEach"

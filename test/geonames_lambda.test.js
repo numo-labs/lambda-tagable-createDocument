@@ -1,8 +1,15 @@
 var assert = require('assert');
 var geo = require('../lib/geonames_lambda');
 var test_hotel_tag = require('./fixtures/test_hotel_tag');
+var AwsHelper = require('aws-lambda-helper');
 
 describe('invoke the Geonames Lambda (tag-e-geo)', function () {
+  before(function (done) {
+    AwsHelper.init({
+      invokedFunctionArn: 'arn:aws:lambda:eu-west-1:123456789:function:mylambda'
+    }, {});
+    done();
+  });
   it('invokes the lambda with sample test_hotel_tag', function (done) {
     geo(test_hotel_tag, function (err, data) {
       if (err || data.Payload.match(/errorMessage/)) console.log(err);
