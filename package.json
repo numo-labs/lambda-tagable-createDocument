@@ -1,13 +1,13 @@
 {
   "name": "lambda-taggable-createdocument",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "create or update a taggable document",
   "main": "index.js",
   "scripts": {
     "nocov": "node ./node_modules/.bin/mocha test/*.js",
     "test": "semistandard && npm run coverage",
     "coverage": "node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/*.js --report lcov -- -R spec",
-    "lint": "node ./node_modules/eslint/bin/eslint.js --fix *.js **/*.js **/test/*.js",
+    "lint": "semistandard  --verbose | snazzy",
     "deploy": "node ./node_modules/dpl/dpl.js"
   },
   "repository": {
@@ -21,18 +21,19 @@
   },
   "homepage": "https://github.com/numo-labs/lambda-taggable-createDocument#readme",
   "dependencies": {
-    "aws-lambda-helper": "^2.10.0",
-    "env2": "^2.0.7"
+    "aws-lambda-helper": "^2.11.0",
+    "env2": "^2.0.8"
   },
   "devDependencies": {
     "aws-lambda-test-utils": "^1.0.2",
-    "aws-sdk": "^2.2.40",
+    "aws-sdk": "^2.3.11",
     "aws-sdk-mock": "^1.0.10",
     "decache": "^3.0.5",
-    "dpl": "^3.0.1",
-    "istanbul": "^0.4.2",
+    "dpl": "^3.2.0",
+    "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
-    "semistandard": "^7.0.5"
+    "semistandard": "^8.0.0",
+    "snazzy": "^4.0.0"
   },
   "files_to_deploy": [
     "package.json",
@@ -40,16 +41,36 @@
     "/lib",
     ".env"
   ],
-  "semistandard": {
-    "globals": [
-      "before",
-      "describe",
-      "it",
-      "afterEach"
-    ]
-  },
+  "lambda_memory":"1536",
+  "lambda_timeout":"30",
   "pre-commit": [
     "semistandard",
     "check-coverage"
-  ]
+  ],
+  "semistandard": {
+    "rules": {
+      "no-multi-spaces": [
+        2,
+        {
+          "exceptions": {
+            "VariableDeclarator": true
+          }
+        }
+      ],
+      "brace-style": [
+        2,
+        "stroustrup",
+        {
+          "allowSingleLine": true
+        }
+      ],
+      "no-trailing-spaces": 0
+    },
+    "globals": [
+      "describe",
+      "it",
+      "before",
+      "after"
+    ]
+  }
 }
