@@ -1,12 +1,15 @@
 # lambda-taggable-createDocument
 
 [![Codeship](https://img.shields.io/codeship/d827f9c0-cce6-0133-f31d-66f6dcee1305.svg)](https://codeship.com/projects/140359/)
+[![codecov](https://codecov.io/gh/numo-labs/lambda-taggable-createDocument/branch/master/graph/badge.svg)](https://codecov.io/gh/numo-labs/lambda-taggable-createDocument)
+[![Dependency Status](https://david-dm.org/numo-labs/lambda-taggable-createDocument.svg)](https://david-dm.org/numo-labs/lambda-taggable-createDocument)
+[![devDependency Status](https://david-dm.org/numo-labs/lambda-taggable-createDocument/dev-status.svg)](https://david-dm.org/numo-labs/lambda-taggable-createDocument#info=devDependencies)
 
 This Lambda is used to add / update documents in the Numo Labs taggable system.  
 The tagging system structure is shown below:
 
 ![inspirational-search-taggable-system](https://cloud.githubusercontent.com/assets/194400/15318968/6fdf0eba-1c20-11e6-8dbe-1d54a597e940.png)
-[Link to edit this diagram](https://docs.google.com/presentation/d/1J2tsHMdnq84XQeZI10T_7vL1vTj-BWMZSgW1Dg-YzV8/edit#slide=id.g12364df475_3_0)
+[*Link to edit this diagram*](https://docs.google.com/presentation/d/1J2tsHMdnq84XQeZI10T_7vL1vTj-BWMZSgW1Dg-YzV8/edit#slide=id.g12364df475_3_0)
 
 The taggable system stores all documents in an S3 Bucket (`'numo-taggy'`).  
 e.g: https://numo-taggy.s3.amazonaws.com/ci/geo/geonames/geo%3Ageonames.2985244.json  
