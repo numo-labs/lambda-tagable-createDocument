@@ -43,16 +43,34 @@
   ],
   "lambda_memory":"1536",
   "lambda_timeout":"30",
-  "semistandard": {
-    "globals": [
-      "before",
-      "describe",
-      "it",
-      "afterEach"
-    ]
-  },
   "pre-commit": [
     "semistandard",
     "check-coverage"
-  ]
+  ],
+  "semistandard": {
+    "rules": {
+      "no-multi-spaces": [
+        2,
+        {
+          "exceptions": {
+            "VariableDeclarator": true
+          }
+        }
+      ],
+      "brace-style": [
+        2,
+        "stroustrup",
+        {
+          "allowSingleLine": true
+        }
+      ],
+      "no-trailing-spaces": 0
+    },
+    "globals": [
+      "describe",
+      "it",
+      "before",
+      "after"
+    ]
+  }
 }
