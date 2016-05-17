@@ -5,7 +5,7 @@
 This Lambda is used to add / update documents in the Numo Labs taggable system.  
 The tagging system structure is shown below:
 
-![inspirational-search-taggable-system](https://cloud.githubusercontent.com/assets/194400/14984413/671c8938-113a-11e6-8b76-3af618041161.png)
+![inspirational-search-taggable-system](https://cloud.githubusercontent.com/assets/194400/15318968/6fdf0eba-1c20-11e6-8dbe-1d54a597e940.png)
 [Link to edit this diagram](https://docs.google.com/presentation/d/1J2tsHMdnq84XQeZI10T_7vL1vTj-BWMZSgW1Dg-YzV8/edit#slide=id.g12364df475_3_0)
 
 The taggable system stores all documents in an S3 Bucket (`'numo-taggy'`).  
@@ -36,7 +36,7 @@ i.e the `event` object has the form:
 > If you need a sample event to test-run this lambda in the AWS Console,
 see: [/test/fixtures/test_hotel_tag.json](https://github.com/numo-labs/lambda-taggable-createDocument/blob/7c742e5963aaa25bfea2eee1d2ee55d66c3c9a6f/test/fixtures/test_hotel_tag.json)  
 > In the AWS Console you should see something like:  
-> ` - - - -> Tag test:hotel.mhid.77bvb7p Saved to S3: https://numo-taggy.s3-eu-west-1.amazonaws.com/ci/test/hotel/test%3Ahotel.mhid.77bvb7p.json`  
+> `--> Tag test:hotel.mhid.77bvb7p Saved to S3: [https://numo-taggy.s3-eu-west-1.amazonaws.com/ci/test/hotel/test%3Ahotel.mhid.77bvb7p.json](https://numo-taggy.s3-eu-west-1.amazonaws.com/ci/test/hotel/test%3Ahotel.mhid.77bvb7p.json)  
 The URL is is your newly created/updated tag.
 
 ## Environment Variables

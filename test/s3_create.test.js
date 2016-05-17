@@ -12,6 +12,7 @@ describe('Save record to S3', function () {
     }, {});
     done();
   });
+
   it('create a record on S3 with json data', function (done) {
     var obj = {
       displayName: 'hello world',
