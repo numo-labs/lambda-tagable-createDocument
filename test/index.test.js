@@ -13,7 +13,9 @@ describe('Index handler tests', function () {
       assert.equal(err.message, 'no _id provided');
       done();
     }
-    var context = {};
+    var context = {
+      invokedFunctionArn: ctxOpts.invokedFunctionArn
+    };
     index.handler({}, context, callback);
   });
 
