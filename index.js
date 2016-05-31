@@ -3,19 +3,27 @@ var AwsHelper = require('aws-lambda-helper');
 var handler = require('./lib/handler.js');
 
 exports.handler = function (event, context, callback) {
-  if (!event._id) { // Check if an tag id is provided
-    return callback(new Error('no _id provided'));
-  }
-
   AwsHelper.init(context, event);
+  var log = AwsHelper.Logger(require('./package.json').name);
+
+  if (!event._id) { // Check if an tag id is provided
+    var err = new Error('no _id provided');
+    log.info({
+      err: err,
+      event: event
+    });
+    return callback(err);
+  }
 
   handler.initTagDoc(event, function (err, newTagDoc) {
     if (err) {
+      log.info(err);
       return callback(err);
     }
 
     handler.s3Create(newTagDoc, function (err, data) {
       if (err) {
+        log.info(err);
         return callback(err);
       }
 
