@@ -33,6 +33,7 @@
     "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
     "semistandard": "^8.0.0",
+    "sinon": "1.17.4",
     "snazzy": "^4.0.0"
   },
   "files_to_deploy": [
@@ -41,8 +42,8 @@
     "/lib",
     ".env"
   ],
-  "lambda_memory":"1536",
-  "lambda_timeout":"30",
+  "lambda_memory": "1536",
+  "lambda_timeout": "30",
   "pre-commit": [
     "semistandard",
     "check-coverage"
