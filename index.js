@@ -10,9 +10,15 @@ exports.handler = function (event, context) {
   AwsHelper.init(context, event);
 
   handler.initTagDoc(event, function (err, newTagDoc) {
-    AwsHelper.failOnError(err, event, context);
-    handler.s3_create(newTagDoc, function (err, data) {
-      AwsHelper.failOnError(err, event, context);
+    if (err) {
+      return context.fail(err);
+    }
+
+    handler.s3Create(newTagDoc, function (err, data) {
+      if (err) {
+        return context.fail(err);
+      }
+
       AwsHelper.log.info({ tag: {eventId: event._id, location: data.Location} }, 'Tag saved to s3');
       return context.succeed(newTagDoc);
     });
