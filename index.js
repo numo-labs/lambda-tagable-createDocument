@@ -10,13 +10,11 @@ exports.handler = function (event, context) {
   AwsHelper.init(context, event);
 
   handler.initTagDoc(event, function (err, newTagDoc) {
-    /* istanbul ignore if */
     if (err) {
       return context.fail(err);
     }
 
     handler.s3Create(newTagDoc, function (err, data) {
-      /* istanbul ignore if */
       if (err) {
         return context.fail(err);
       }
