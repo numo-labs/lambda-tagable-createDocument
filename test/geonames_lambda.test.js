@@ -1,6 +1,6 @@
 var assert = require('assert');
 var geo = require('../lib/geonames_lambda');
-var test_hotel_tag = require('./fixtures/test_hotel_tag');
+var testHotelTag = require('./fixtures/test_hotel_tag');
 var AwsHelper = require('aws-lambda-helper');
 
 describe('invoke the Geonames Lambda (tag-e-geo)', function () {
@@ -10,8 +10,9 @@ describe('invoke the Geonames Lambda (tag-e-geo)', function () {
     }, {});
     done();
   });
+
   it('invokes the lambda with sample test_hotel_tag', function (done) {
-    geo(test_hotel_tag, function (err, data) {
+    geo(testHotelTag, function (err, data) {
       if (err || data.Payload.match(/errorMessage/)) console.log(err);
       // console.log(err, data.Payload);
       var res = JSON.parse(data.Payload);
@@ -21,8 +22,8 @@ describe('invoke the Geonames Lambda (tag-e-geo)', function () {
   });
 
   it('invokes the lambda invalid tag (no location.lat)', function (done) {
-    var bad_tag = {_id: 'bad'};
-    geo(bad_tag, function (err, data) {
+    var badTag = {_id: 'bad'};
+    geo(badTag, function (err, data) {
       if (err) console.log(err);
       // console.log(err, data);
       assert.equal(data.FunctionError, 'Handled');

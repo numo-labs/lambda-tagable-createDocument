@@ -1,15 +1,15 @@
 var assert = require('assert');
 var handler = require('../lib/handler.js');
-var test_hotel_tag = require('./fixtures/test_hotel_tag.json');
-var fields_list = ['_id', 'location', 'displayName', 'tags',
+var testHotelTag = require('./fixtures/test_hotel_tag.json');
+var fieldsList = ['_id', 'location', 'displayName', 'tags',
   'metadata', 'content', 'markets', 'active', 'description'];
 
 describe('lib/handler.js', function () {
   it('initTagDoc: should create a doc object from the event', function (done) {
-    handler.initTagDoc(test_hotel_tag, function (err, doc) {
+    handler.initTagDoc(testHotelTag, function (err, doc) {
       if (err) console.log(err);
       // console.log(doc);
-      assert.deepEqual(doc, test_hotel_tag);
+      assert.deepEqual(doc, testHotelTag);
       done();
     });
   });
@@ -18,7 +18,7 @@ describe('lib/handler.js', function () {
     var event = { _id: '12345' };
     handler.initTagDoc(event, function (err, doc) {
       if (err) console.log(err);
-      assert.deepEqual(Object.keys(doc), fields_list);
+      assert.deepEqual(Object.keys(doc), fieldsList);
       assert.deepEqual(doc.tags, []);
       assert.deepEqual(doc.metadata, []);
       assert.equal(doc.displayName, event._id);
@@ -31,7 +31,7 @@ describe('lib/handler.js', function () {
     handler.initTagDoc(event, function (err, doc) {
       if (err) console.log(err);
       // console.log(doc);
-      assert.deepEqual(Object.keys(doc), fields_list);
+      assert.deepEqual(Object.keys(doc), fieldsList);
       assert.equal(doc.tags.length, 1);
       assert.equal(doc.tags[0].node, 'geo:geonames.2634643');
       assert.equal(doc.displayName, event._id);
@@ -44,7 +44,7 @@ describe('lib/handler.js', function () {
     handler.initTagDoc(event, function (err, doc) {
       if (err) console.log(err);
       // console.log(doc);
-      assert.deepEqual(Object.keys(doc), fields_list);
+      assert.deepEqual(Object.keys(doc), fieldsList);
       // console.log(doc.tags);
       assert(doc.tags.length > 0);
       assert.equal(doc.tags[1].node, 'geo:geonames.261702');
